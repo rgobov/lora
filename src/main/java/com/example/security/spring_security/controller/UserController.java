@@ -33,6 +33,7 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     public String getAllUsers(Model model) {
         model.addAttribute("users", userService.findAll());
+        model.addAttribute("user", new User());
         return "all_users";
     }
 
