@@ -15,8 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-
-
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -72,9 +71,12 @@ public class UserServiceImpl implements UserService {
         userFromBase.setLastName(updateuser.getLastName());
         userFromBase.setAge(updateuser.getAge());
         userFromBase.setId(updateuser.getId());
-        if (!updateuser.getRoles().isEmpty()) {
+        if (updateuser.getRoles() == null || updateuser.getRoles().isEmpty()) {
+            HashSet hashSet = new HashSet();
+            userFromBase.setRoles(hashSet);
+        } else {
             userFromBase.getRoles().clear(); // Очищаем текущие роли
-            userFromBase.getRoles().addAll(updateuser.getRoles()); // Добавляем новые роли
+            userFromBase.getRoles().addAll(updateuser.getRoles());
         }
         userRepository.save(userFromBase);
     }
