@@ -62,7 +62,8 @@ public class UserServiceImpl implements UserService {
         User userFromBase = findById(id);
         //userFromBase.setUserName(updateuser.getUserName());
         userFromBase.setEmail(updateuser.getEmail());
-        userFromBase.setPassword(bCryptPasswordEncoder.encode(updateuser.getPassword()));
+        if(updateuser.getPassword() != null) {userFromBase.setPassword(bCryptPasswordEncoder.encode(updateuser.getPassword()));
+        }
         userFromBase.setFirstName(updateuser.getFirstName());
         userFromBase.setLastName(updateuser.getLastName());
         userFromBase.setAge(updateuser.getAge());
