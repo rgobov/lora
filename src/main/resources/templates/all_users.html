@@ -92,7 +92,11 @@
                                 data-bs-toggle="modal"
                                 data-bs-target="#editUserModal"
                                 th:data-user-id="${user.id}"
-                                th:data-user="${#strings.escapeJava(user.toJson())}">
+                                th:data-user-firstname="${user.firstName}"
+                                th:data-user-lastname="${user.lastName}"
+                                th:data-user-age="${user.age}"
+                                th:data-user-email="${user.email}"
+                                >
                             Edit
                         </button>
                     </td>
@@ -235,16 +239,20 @@
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.edit-btn').forEach(button => {
             button.addEventListener('click', function() {
-                const userData = JSON.parse(this.dataset.user);
+                // Получаем данные из атрибутов кнопки
+                const userId = this.getAttribute('data-user-id');
+                const firstName = this.getAttribute('data-user-firstname');
+                const lastName = this.getAttribute('data-user-lastname');
+                const age = this.getAttribute('data-user-age');
+                const email = this.getAttribute('data-user-email');
 
-                // Заполнение ID
-                document.getElementById('editUserId').value = userData.id;
+                // Заполняем поля модального окна
+                document.getElementById('editUserId').value = userId;
+                document.getElementById('editFirstName').value = firstName;
+                document.getElementById('editLastName').value = lastName;
+                document.getElementById('editAge').value = age;
+                document.getElementById('editEmail').value = email;
 
-                // Заполнение остальных полей
-                document.getElementById('editFirstName').value = userData.firstName;
-                document.getElementById('editLastName').value = userData.lastName;
-                document.getElementById('editAge').value = userData.age;
-                document.getElementById('editEmail').value = userData.email;
 
                 // Сброс чекбоксов
                 document.querySelectorAll('#editUserModal input[type="checkbox"]').forEach(checkbox => {
