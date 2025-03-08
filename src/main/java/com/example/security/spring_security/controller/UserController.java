@@ -98,13 +98,48 @@ public class UserController {
         return "edit_user";
     }
 
+//    @PostMapping("/update")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public String updateUser(@ModelAttribute("user") User user, @RequestParam("id") int id) {
+//        userService.update(id, user);
+//        return "redirect:/affterUpdate?id=" + id;
+//
+//    }
+
     @PostMapping("/update")
     @PreAuthorize("hasRole('ADMIN')")
-    public String updateUser(@ModelAttribute("user") User user, @RequestParam("id") int id) {
-        userService.update(id, user);
-        return "redirect:/affterUpdate?id=" + id;
+    public String updateUser(
+            @RequestParam("id") Long id,
+            @RequestParam("firstName") String firstName,
+            @RequestParam("lastName") String lastName,
+            @RequestParam("age") int age,
+            @RequestParam("email") String email,
+            @RequestParam(value = "password", required = false) String password,
+            @RequestParam(value = "roles", required = false) Set<Long> roleIds
+    ) {
+        User user = new User();
+        user.setId(id);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setAge(age);
+        user.setEmail(email);
+        if(password != null && !password.isEmpty()) {
+            user.setPassword(password);
+        }
 
+        if(roleIds != null) {
+            Set<Role> roles = roleIds.stream()
+                    .map(roleRepository::findById)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .collect(Collectors.toSet());
+            user.setRoles(roles);
+        }
+
+        userService.update(id,user);
+        return "redirect:/admin";
     }
+
     @GetMapping("/affterUpdate")
     public String affterUpdate(Model model, @RequestParam("id") int id) {
         User user = userService.findById(id);

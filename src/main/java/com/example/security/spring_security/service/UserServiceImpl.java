@@ -56,11 +56,15 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+
     @Override
     @Transactional
     public void update(long id, User updateuser) {
-        User userFromBase = findById(id);
-        //userFromBase.setUserName(updateuser.getUserName());
+        User userFromBase;
+        try {
+        userFromBase = userRepository.findById(id).get();} catch (Exception e) {
+            userFromBase = userRepository.findByEmail(updateuser.getEmail()).get();
+        }
         userFromBase.setEmail(updateuser.getEmail());
         if(updateuser.getPassword() != null) {userFromBase.setPassword(bCryptPasswordEncoder.encode(updateuser.getPassword()));
         }
@@ -68,7 +72,7 @@ public class UserServiceImpl implements UserService {
         userFromBase.setLastName(updateuser.getLastName());
         userFromBase.setAge(updateuser.getAge());
         userFromBase.setId(updateuser.getId());
-        if (updateuser.getRoles() != null) {
+        if (!updateuser.getRoles().isEmpty()) {
             userFromBase.getRoles().clear(); // Очищаем текущие роли
             userFromBase.getRoles().addAll(updateuser.getRoles()); // Добавляем новые роли
         }

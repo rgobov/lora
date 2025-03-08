@@ -3,6 +3,7 @@ package com.example.security.spring_security.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -122,5 +123,15 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String toJson() {
+        return String.format(
+                "{\"id\":%d, \"firstName\":\"%s\", \"lastName\":\"%s\", \"age\":%d, \"email\":\"%s\", \"roles\":%s}",
+                id, firstName, lastName, age, email,
+                roles.stream()
+                        .map(r -> String.format("{\"id\":%d}", r.getId()))
+                        .collect(Collectors.joining(",", "[", "]"))
+        );
     }
 }
