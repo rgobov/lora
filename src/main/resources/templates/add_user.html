@@ -1,17 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Add New User</title>
-    <!-- Подключение Bootstrap CSS и JS -->
+    <title>Add User</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<div class="container mt-4">
-    <h2>Admin Panel</h2>
-    <h3>Add New User</h3>
-
-    <!-- Форма добавления нового пользователя -->
+<div class="container">
+    <h2>Add New User</h2>
     <form th:action="@{/addUser}" th:method="POST" th:object="${user}">
         <div class="form-group mb-3">
             <label for="firstName">First Name</label>
@@ -37,13 +32,27 @@
             <label>Roles</label>
             <div th:each="role : ${allRoles}">
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input" th:value="${role.id}" th:field="*{roles}" th:id="${'role' + role.id}">
+                    <input type="checkbox" class="form-check-input"
+                           name="roles" <!-- Убедитесь, что name="roles" -->
+                    th:value="${role.id}" <!-- Передаем ID роли -->
+                    th:id="${'role' + role.id}">
                     <label class="form-check-label" th:for="${'role' + role.id}" th:text="${role.roleName}"></label>
                 </div>
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Add New User</button>
     </form>
+
+    <!-- Добавьте этот блок для отладки -->
+    <div th:if="${allRoles.empty}">
+        <p style="color: red;">No roles found in the model!</p>
+    </div>
+    <div th:unless="${allRoles.empty}">
+        <p>Roles in model:</p>
+        <ul>
+            <li th:each="role : ${allRoles}" th:text="${role.roleName} + ' (ID: ' + ${role.id} + ')'"></li>
+        </ul>
+    </div>
 </div>
 </body>
 </html>

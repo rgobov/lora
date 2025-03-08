@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 @Controller
 
 public class UserController {
+
     @Autowired
     private RoleRepository roleRepository;
     @Autowired
@@ -40,6 +41,7 @@ public class UserController {
     @GetMapping("/new")
     @PreAuthorize("hasRole('ADMIN')")
     public String showFormAddUser(Model model) {
+        System.out.println("Сработал");
         // Получаем все роли из базы данных
         List<Role> allRoles = roleRepository.findAll();
 
@@ -117,6 +119,7 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     public String affterDelite(Model model) {
         model.addAttribute("users", userService.findAll());
+        model.addAttribute("user", new User());
         return "all_users";
     }
     @GetMapping("/user")
