@@ -35,7 +35,10 @@ public class UserController {
     public String getAllUsers(Model model) {
         model.addAttribute("users", userService.findAll());
         model.addAttribute("user", new User());
+        List<Role> allRoles = roleRepository.findAll();
+        model.addAttribute("allRoles", allRoles);
         return "all_users";
+
     }
 
     @GetMapping("/new")
@@ -58,7 +61,7 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     public String addUser(
             @ModelAttribute("user") User user,
-            @RequestParam(value = "roles", required = false) Set<Integer> roleIds // Принимаем ID ролей
+            @RequestParam(value = "roles", required = false) Set<Long> roleIds // Принимаем ID ролей
     ) {
         if (roleIds != null && !roleIds.isEmpty()) {
             Set<Role> roles = roleIds.stream()
