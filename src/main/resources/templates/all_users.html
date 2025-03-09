@@ -186,12 +186,28 @@
         <div class="tab-pane fade" id="user-info" role="tabpanel" aria-labelledby="user-info-tab">
             <h3 class="mt-3">User Information</h3>
             <div th:if="${currentUser != null}">
-                <p><strong>ID:</strong> <span th:text="${currentUser.id}"></span></p>
-                <p><strong>First Name:</strong> <span th:text="${currentUser.firstName}"></span></p>
-                <p><strong>Last Name:</strong> <span th:text="${currentUser.lastName}"></span></p>
-                <p><strong>Age:</strong> <span th:text="${currentUser.age}"></span></p>
-                <p><strong>Email:</strong> <span th:text="${currentUser.email}"></span></p>
-                <p><strong>Roles:</strong> <span th:each="role : ${currentUser.roles}" th:text="${role.roleName} + ' '"></span></p>
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>FirstName</th>
+                        <th>LastName</th>
+                        <th>Age</th>
+                        <th>Email</th>
+                        <th>Roles</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:text="${currentUser.id}"></td>
+                        <td th:text="${currentUser.firstName}"></td>
+                        <td th:text="${currentUser.lastName}"></td>
+                        <td th:text="${currentUser.age}"></td>
+                        <td th:text="${currentUser.email}"></td>
+                        <td><span th:each="role : ${currentUser.roles}" th:text="${role.roleName} + ' '"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
             <div th:if="${currentUser == null}">
                 <p>Информация о пользователе отсутствует.</p>
