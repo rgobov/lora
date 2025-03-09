@@ -12,20 +12,35 @@
             position: fixed;
             top: 40px; /* Смещаем вниз ниже header-bar */
             left: 0;
-            background-color: #343a40;
+            background-color: #ffffff; /* Белый фон для sidebar */
             padding-top: 20px;
+            border-right: 1px solid #dee2e6; /* Добавляем тонкую границу для визуального разделения */
         }
 
         .sidebar a {
             padding: 10px 15px;
             text-decoration: none;
             font-size: 18px;
-            color: #fff;
+            color: #66b0ff; /* Светло-синий цвет текста */
             display: block;
+            transition: all 0.3s ease; /* Плавный переход для hover-эффектов */
         }
 
         .sidebar a:hover {
-            background-color: #495057;
+            color: #ffffff; /* Белый цвет текста при наведении */
+            background-color: #66b0ff; /* Светло-синий фон при наведении */
+        }
+
+        /* Стиль для "Пользователь" при роли ROLE_USER */
+        .sidebar a.user-active {
+            color: #ffffff !important; /* Белый цвет текста */
+            background-color: #0076FF !important; /* Синий фон */
+        }
+
+        /* Отключаем эффект наведения для user-active */
+        .sidebar a.user-active:hover {
+            color: #ffffff !important;
+            background-color: #0076FF !important; /* Оставляем тот же фон при наведении */
         }
 
         .main-content {
@@ -83,6 +98,54 @@
         /* Показываем только активную вкладку */
         .nav-tabs .nav-item.show {
             display: block;
+        }
+
+        /* Стилизация вкладок для админ-панели */
+        #users-tab-item .nav-link:not(.active),
+        #new-user-tab-item .nav-link:not(.active) {
+            color: #66b0ff !important; /* Светло-синий цвет для неактивных вкладок */
+        }
+
+        #users-tab-item .nav-link.active,
+        #new-user-tab-item .nav-link.active {
+            color: #000000 !important; /* Черный цвет для активной вкладки */
+            background-color: #ffffff !important;
+            border-color: #dee2e6 #dee2e6 #fff !important;
+        }
+
+        /* Стилизация кнопок Редактировать и Удалить */
+        .edit-btn {
+            background-color: #1892B4 !important; /* Теal-синий цвет для кнопки Редактировать */
+            color: #ffffff !important; /* Белый текст */
+            border: none; /* Убираем стандартную границу */
+        }
+
+        .edit-btn:hover {
+            background-color: #147a96 !important; /* Темнее при наведении */
+            color: #ffffff !important;
+        }
+
+        .delete-btn {
+            background-color: #EA4542 !important; /* Красный цвет для кнопки Удалить */
+            color: #ffffff !important; /* Белый текст */
+            border: none; /* Убираем стандартную границу */
+        }
+
+        .delete-btn:hover {
+            background-color: #c73936 !important; /* Темнее при наведении */
+            color: #ffffff !important;
+        }
+
+        /* Стилизация кнопки Добавить нового пользователя */
+        #new-user .btn-primary {
+            background-color: #1D9442 !important; /* Зеленый цвет для кнопки */
+            color: #ffffff !important; /* Белый текст */
+            border: none; /* Убираем стандартную границу */
+        }
+
+        #new-user .btn-primary:hover {
+            background-color: #187a36 !important; /* Темнее при наведении */
+            color: #ffffff !important;
         }
     </style>
 </head>
@@ -456,6 +519,15 @@
             new bootstrap.Tab(document.getElementById('user-info-tab')).show();
         }
 
+        // Проверяем роль пользователя
+        const isAdmin = /*[[${#authentication.authorities != null and #authentication.authorities.?[authority == 'ROLE_ADMIN'].size() > 0}]]*/ false;
+        const isUser = /*[[${#authentication.authorities != null and #authentication.authorities.?[authority == 'ROLE_USER'].size() > 0}]]*/ false;
+
+        // Если пользователь имеет роль ROLE_USER и НЕ имеет ROLE_ADMIN, применяем стиль к "Пользователь"
+        if (isUser && !isAdmin) {
+            userTab.classList.add('user-active');
+        }
+
         // Обработчик для кнопки "Admin"
         if (adminTab) {
             adminTab.addEventListener('click', function (event) {
@@ -471,7 +543,6 @@
         });
 
         // Изначально показываем вкладки в зависимости от роли
-        const isAdmin = /*[[${#authentication.authorities != null and #authentication.authorities.?[authority == 'ROLE_ADMIN'].size() > 0}]]*/ false;
         if (isAdmin) {
             showAdminTabs();
         } else {
