@@ -6,6 +6,7 @@ import com.example.security.spring_security.repositories.RoleRepository;
 import com.example.security.spring_security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,7 @@ public class UserController {
     }
 
     private UserService userService;
+
 
 
     @GetMapping("/admin")
@@ -172,6 +174,16 @@ public class UserController {
     @GetMapping("/login")
     public String login() {
         return "login"; // Имя шаблона (login.html)
+    }
+
+    @ModelAttribute("currentUser")
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated() && !(authentication.getPrincipal() instanceof String)) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            return userService.findByUserName(userDetails.getUsername());
+        }
+        return null; // или вернуть пустой объект User
     }
 }
 
