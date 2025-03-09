@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Панель администратора</title>
+    <title>Панель управления</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
@@ -83,25 +84,20 @@
         .nav-tabs .nav-item.show {
             display: block;
         }
-
-        /* Скрытие заголовка */
-        #main-header.hidden {
-            display: none;
-        }
     </style>
 </head>
 <body>
 <!-- Статичный тёмный блок вверху -->
 <div class="header-bar">
     <div class="user-info">
-       <span th:with="firstRole=${#authentication.authorities != null and #authentication.authorities.size() > 0 ? #authentication.authorities[0].authority : 'Нет ролей'}">
-    <span th:text="${#authentication.principal.username} + ' с ролью: '"></span>
-    <span th:switch="${firstRole}">
-        <span th:case="'ROLE_ADMIN'">ADMIN</span>
-        <span th:case="'ROLE_USER'">USER</span>
-        <span th:case="*">Нет ролей</span>
-    </span>
-</span>
+        <span th:with="firstRole=${#authentication.authorities != null and #authentication.authorities.size() > 0 ? #authentication.authorities[0].authority : 'Нет ролей'}">
+            <span th:text="${#authentication.principal.username} + ' с ролью: '"></span>
+            <span th:switch="${firstRole}">
+                <span th:case="'ROLE_ADMIN'">ADMIN</span>
+                <span th:case="'ROLE_USER'">USER</span>
+                <span th:case="*">Нет ролей</span>
+            </span>
+        </span>
     </div>
     <div class="logout">
         <a href="/logout" style="color: #fff; text-decoration: none;">Выход</a>
@@ -110,23 +106,24 @@
 
 <!-- Боковая панель -->
 <div class="sidebar">
-    <a href="#" id="admin-tab">Администратор</a>
+    <a href="#" id="admin-tab" sec:authorize="hasRole('ROLE_ADMIN')">Администратор</a>
     <a href="#" id="user-tab">Пользователь</a>
 </div>
 
 <!-- Основной контент -->
 <div class="main-content">
-    <h2 id="main-header">Панель администратора</h2>
+    <!-- Показываем заголовок только для админов -->
+    <h2 id="main-header" sec:authorize="hasRole('ROLE_ADMIN')">Панель администратора</h2>
 
     <!-- Вкладки -->
     <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item" role="presentation" id="users-tab-item">
+        <li class="nav-item" role="presentation" id="users-tab-item" sec:authorize="hasRole('ROLE_ADMIN')">
             <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button"
                     role="tab" aria-controls="users" aria-selected="true">
                 Таблица пользователей
             </button>
         </li>
-        <li class="nav-item" role="presentation" id="new-user-tab-item">
+        <li class="nav-item" role="presentation" id="new-user-tab-item" sec:authorize="hasRole('ROLE_ADMIN')">
             <button class="nav-link" id="new-user-tab" data-bs-toggle="tab" data-bs-target="#new-user" type="button"
                     role="tab" aria-controls="new-user" aria-selected="false">
                 Новый пользователь
@@ -143,7 +140,7 @@
     <!-- Контент вкладок -->
     <div class="tab-content" id="myTabContent">
         <!-- Вкладка "Таблица пользователей" -->
-        <div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab">
+        <div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab" sec:authorize="hasRole('ROLE_ADMIN')">
             <h3 class="mt-3">Все пользователи</h3>
             <table class="table table-bordered">
                 <thead class="thead-dark">
@@ -199,7 +196,7 @@
         </div>
 
         <!-- Вкладка "Новый пользователь" -->
-        <div class="tab-pane fade" id="new-user" role="tabpanel" aria-labelledby="new-user-tab">
+        <div class="tab-pane fade" id="new-user" role="tabpanel" aria-labelledby="new-user-tab" sec:authorize="hasRole('ROLE_ADMIN')">
             <h3 class="mt-3">Добавить нового пользователя</h3>
             <div class="form-container">
                 <form th:action="@{/addUser}" th:method="POST" th:object="${user}">
@@ -364,41 +361,54 @@
     </div>
 </div>
 
-<script>
+<script th:inline="javascript">
     document.addEventListener('DOMContentLoaded', function () {
         const adminTab = document.getElementById('admin-tab');
         const userTab = document.getElementById('user-tab');
-        const mainHeader = document.getElementById('main-header');
         const userInfoHeader = document.getElementById('user-info-header');
         const usersTabItem = document.getElementById('users-tab-item');
         const newUserTabItem = document.getElementById('new-user-tab-item');
         const userInfoTabItem = document.getElementById('user-info-tab-item');
 
+        // Проверка на наличие всех элементов
+        if (!userTab || !userInfoHeader || !userInfoTabItem) {
+            console.error('Required DOM elements are missing:', {
+                userTab: userTab,
+                userInfoHeader: userInfoHeader,
+                userInfoTabItem: userInfoTabItem
+            });
+            return;
+        }
+
         // Функция для показа административных вкладок
         function showAdminTabs() {
+            if (!usersTabItem || !newUserTabItem) {
+                console.error('Admin tab items are missing:', { usersTabItem, newUserTabItem });
+                return;
+            }
             usersTabItem.classList.add('show');
             newUserTabItem.classList.add('show');
             userInfoTabItem.classList.remove('show');
-            mainHeader.classList.remove('hidden'); // Показываем заголовок
             userInfoHeader.classList.add('mt-3'); // Восстанавливаем отступ
             new bootstrap.Tab(document.getElementById('users-tab')).show();
         }
 
         // Функция для показа вкладки "User Info"
         function showUserInfoTab() {
-            usersTabItem.classList.remove('show');
-            newUserTabItem.classList.remove('show');
+            usersTabItem?.classList.remove('show');
+            newUserTabItem?.classList.remove('show');
             userInfoTabItem.classList.add('show');
-            mainHeader.classList.add('hidden'); // Скрываем заголовок
             userInfoHeader.classList.remove('mt-3'); // Убираем отступ
             new bootstrap.Tab(document.getElementById('user-info-tab')).show();
         }
 
         // Обработчик для кнопки "Admin"
-        adminTab.addEventListener('click', function (event) {
-            event.preventDefault();
-            showAdminTabs();
-        });
+        if (adminTab) {
+            adminTab.addEventListener('click', function (event) {
+                event.preventDefault();
+                showAdminTabs();
+            });
+        }
 
         // Обработчик для кнопки "User"
         userTab.addEventListener('click', function (event) {
@@ -406,8 +416,13 @@
             showUserInfoTab();
         });
 
-        // Изначально показываем административные вкладки
-        showAdminTabs();
+        // Изначально показываем вкладки в зависимости от роли
+        const isAdmin = /*[[${#authentication.authorities != null and #authentication.authorities.?[authority == 'ROLE_ADMIN'].size() > 0}]]*/ false;
+        if (isAdmin) {
+            showAdminTabs();
+        } else {
+            showUserInfoTab();
+        }
 
         // Обработчики для кнопок редактирования
         document.querySelectorAll('.edit-btn').forEach(button => {

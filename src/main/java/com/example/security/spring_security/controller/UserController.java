@@ -33,14 +33,13 @@ public class UserController {
 
 
     @GetMapping("/admin")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public String getAllUsers(Model model) {
         model.addAttribute("users", userService.findAll());
         model.addAttribute("user", new User());
         List<Role> allRoles = roleRepository.findAll();
         model.addAttribute("allRoles", allRoles);
         return "all_users";
-
     }
 
     @GetMapping("/new")
