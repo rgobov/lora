@@ -14,6 +14,7 @@
             background-color: #343a40;
             padding-top: 20px;
         }
+
         .sidebar a {
             padding: 10px 15px;
             text-decoration: none;
@@ -21,14 +22,17 @@
             color: #fff;
             display: block;
         }
+
         .sidebar a:hover {
             background-color: #495057;
         }
+
         .main-content {
             margin-left: 250px;
             padding: 20px;
             padding-top: 80px; /* Увеличен отступ сверху, чтобы учесть новый блок */
         }
+
         .header-bar {
             position: fixed;
             top: 0;
@@ -43,34 +47,43 @@
             align-items: center;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
         .header-bar .user-info {
             display: flex;
             align-items: center;
         }
+
         .header-bar .logout {
             margin-right: 20px;
         }
+
         #new-user .form-control {
             width: 50%;
         }
+
         #new-user .form-check-input {
             margin-left: 0;
         }
+
         #new-user .form-container {
             display: flex;
             justify-content: center;
         }
+
         #new-user form {
             width: 50%;
         }
+
         /* Скрываем все вкладки по умолчанию */
         .nav-tabs .nav-item {
             display: none;
         }
+
         /* Показываем только активную вкладку */
         .nav-tabs .nav-item.show {
             display: block;
         }
+
         /* Скрытие заголовка */
         #main-header.hidden {
             display: none;
@@ -81,9 +94,14 @@
 <!-- Статичный тёмный блок вверху -->
 <div class="header-bar">
     <div class="user-info">
-        <span th:with="firstRole=${#authentication.authorities != null and #authentication.authorities.size() > 0 ? #authentication.authorities[0].authority : 'Нет ролей'}"
-              th:text="${#authentication.principal.username} + ' с ролью: ' + ${firstRole}">
-        </span>
+       <span th:with="firstRole=${#authentication.authorities != null and #authentication.authorities.size() > 0 ? #authentication.authorities[0].authority : 'Нет ролей'}">
+    <span th:text="${#authentication.principal.username} + ' с ролью: '"></span>
+    <span th:switch="${firstRole}">
+        <span th:case="'ROLE_ADMIN'">ADMIN</span>
+        <span th:case="'ROLE_USER'">USER</span>
+        <span th:case="*">Нет ролей</span>
+    </span>
+</span>
     </div>
     <div class="logout">
         <a href="/logout" style="color: #fff; text-decoration: none;">Выход</a>
@@ -103,17 +121,20 @@
     <!-- Вкладки -->
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation" id="users-tab-item">
-            <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab" aria-controls="users" aria-selected="true">
+            <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button"
+                    role="tab" aria-controls="users" aria-selected="true">
                 Таблица пользователей
             </button>
         </li>
         <li class="nav-item" role="presentation" id="new-user-tab-item">
-            <button class="nav-link" id="new-user-tab" data-bs-toggle="tab" data-bs-target="#new-user" type="button" role="tab" aria-controls="new-user" aria-selected="false">
+            <button class="nav-link" id="new-user-tab" data-bs-toggle="tab" data-bs-target="#new-user" type="button"
+                    role="tab" aria-controls="new-user" aria-selected="false">
                 Новый пользователь
             </button>
         </li>
         <li class="nav-item" role="presentation" id="user-info-tab-item">
-            <button class="nav-link" id="user-info-tab" data-bs-toggle="tab" data-bs-target="#user-info" type="button" role="tab" aria-controls="user-info" aria-selected="false">
+            <button class="nav-link" id="user-info-tab" data-bs-toggle="tab" data-bs-target="#user-info" type="button"
+                    role="tab" aria-controls="user-info" aria-selected="false">
                 Информация о пользователе
             </button>
         </li>
@@ -121,7 +142,7 @@
 
     <!-- Контент вкладок -->
     <div class="tab-content" id="myTabContent">
-        <!-- Вкладка "Users Table" -->
+        <!-- Вкладка "Таблица пользователей" -->
         <div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab">
             <h3 class="mt-3">Все пользователи</h3>
             <table class="table table-bordered">
@@ -145,7 +166,13 @@
                     <td th:text="${user.age}"></td>
                     <td th:text="${user.email}"></td>
                     <td>
-                        <span th:each="role : ${user.roles}" th:text="${role.roleName} + ' '"></span>
+                        <span th:each="role : ${user.roles}">
+                            <span th:switch="${role.roleName}">
+                                <span th:case="'ROLE_ADMIN'">ADMIN</span>
+                                <span th:case="'ROLE_USER'">USER</span>
+                                <span th:case="*">Нет ролей</span>
+                            </span>
+                        </span>
                     </td>
                     <td>
                         <button
@@ -171,7 +198,7 @@
             </table>
         </div>
 
-        <!-- Вкладка "New User" -->
+        <!-- Вкладка "Новый пользователь" -->
         <div class="tab-pane fade" id="new-user" role="tabpanel" aria-labelledby="new-user-tab">
             <h3 class="mt-3">Добавить нового пользователя</h3>
             <div class="form-container">
@@ -208,8 +235,12 @@
                                         th:id="${'role' + role.id}">
                                 <label
                                         class="form-check-label"
-                                        th:for="${'role' + role.id}"
-                                        th:text="${role.roleName}">
+                                        th:for="${'role' + role.id}">
+                                    <span th:switch="${role.roleName}">
+                                        <span th:case="'ROLE_ADMIN'">ADMIN</span>
+                                        <span th:case="'ROLE_USER'">USER</span>
+                                        <span th:case="*">Нет ролей</span>
+                                    </span>
                                 </label>
                             </div>
                         </div>
@@ -219,7 +250,7 @@
             </div>
         </div>
 
-        <!-- Вкладка "User Info" -->
+        <!-- Вкладка "Информация о пользователе" -->
         <div class="tab-pane fade" id="user-info" role="tabpanel" aria-labelledby="user-info-tab">
             <h3 id="user-info-header" class="mt-3">Информация о пользователе</h3>
             <div th:if="${currentUser != null}">
@@ -241,7 +272,15 @@
                         <td th:text="${currentUser.lastName}"></td>
                         <td th:text="${currentUser.age}"></td>
                         <td th:text="${currentUser.email}"></td>
-                        <td><span th:each="role : ${currentUser.roles}" th:text="${role.roleName} + ' '"></span></td>
+                        <td>
+                            <span th:each="role : ${currentUser.roles}">
+                                <span th:switch="${role.roleName}">
+                                    <span th:case="'ROLE_ADMIN'">ADMIN</span>
+                                    <span th:case="'ROLE_USER'">USER</span>
+                                    <span th:case="*">Нет ролей</span>
+                                </span>
+                            </span>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -305,8 +344,12 @@
                                         th:id="${'editRole' + role.id}">
                                 <label
                                         class="form-check-label"
-                                        th:for="${'editRole' + role.id}"
-                                        th:text="${role.roleName}">
+                                        th:for="${'editRole' + role.id}">
+                                    <span th:switch="${role.roleName}">
+                                        <span th:case="'ROLE_ADMIN'">ADMIN</span>
+                                        <span th:case="'ROLE_USER'">USER</span>
+                                        <span th:case="*">Нет ролей</span>
+                                    </span>
                                 </label>
                             </div>
                         </div>
@@ -322,7 +365,7 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const adminTab = document.getElementById('admin-tab');
         const userTab = document.getElementById('user-tab');
         const mainHeader = document.getElementById('main-header');
@@ -352,13 +395,13 @@
         }
 
         // Обработчик для кнопки "Admin"
-        adminTab.addEventListener('click', function(event) {
+        adminTab.addEventListener('click', function (event) {
             event.preventDefault();
             showAdminTabs();
         });
 
         // Обработчик для кнопки "User"
-        userTab.addEventListener('click', function(event) {
+        userTab.addEventListener('click', function (event) {
             event.preventDefault();
             showUserInfoTab();
         });
@@ -368,7 +411,7 @@
 
         // Обработчики для кнопок редактирования
         document.querySelectorAll('.edit-btn').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 const userId = this.getAttribute('data-user-id');
                 const firstName = this.getAttribute('data-user-firstname');
                 const lastName = this.getAttribute('data-user-lastname');
