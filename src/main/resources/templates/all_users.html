@@ -52,8 +52,8 @@
 <body>
 <!-- Боковая панель -->
 <div class="sidebar">
-    <a href="/admin">Admin</a> <!-- Вкладка Admin -->
-    <a href="/user">User</a> <!-- Вкладка User -->
+    <a href="#" id="admin-tab">Admin</a> <!-- Вкладка Admin -->
+    <a href="#" id="user-tab">User</a> <!-- Вкладка User -->
     <a href="/logout">Logout</a> <!-- Выход -->
 </div>
 
@@ -256,6 +256,18 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Обработчики для кнопок в боковом меню
+        document.getElementById('admin-tab').addEventListener('click', function(event) {
+            event.preventDefault();
+            new bootstrap.Tab(document.getElementById('users-tab')).show();
+        });
+
+        document.getElementById('user-tab').addEventListener('click', function(event) {
+            event.preventDefault();
+            new bootstrap.Tab(document.getElementById('new-user-tab')).show();
+        });
+
+        // Обработчики для кнопок редактирования
         document.querySelectorAll('.edit-btn').forEach(button => {
             button.addEventListener('click', function() {
                 // Получаем данные из атрибутов кнопки
