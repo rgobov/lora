@@ -186,9 +186,19 @@
                         </button>
                     </td>
                     <td>
-                        <form th:method="POST" th:action="@{/delete(id=${user.id})}">
-                            <input type="submit" class="btn btn-danger btn-sm" value="Удалить"/>
-                        </form>
+                        <button
+                                class="btn btn-danger btn-sm delete-btn"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteUserModal"
+                                th:data-user-id="${user.id}"
+                                th:data-user-firstname="${user.firstName}"
+                                th:data-user-lastname="${user.lastName}"
+                                th:data-user-age="${user.age}"
+                                th:data-user-email="${user.email}"
+                                th:data-user-roles="${#strings.toString(user.roles)}"
+                        >
+                            Удалить
+                        </button>
                     </td>
                 </tr>
                 </tbody>
@@ -361,6 +371,50 @@
     </div>
 </div>
 
+<!-- Модальное окно удаления -->
+<div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteUserModalLabel">Удалить пользователя</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/delete}" th:method="POST" id="deleteUserForm">
+                    <div class="mb-3">
+                        <label class="form-label">ID</label>
+                        <input type="text" class="form-control" id="deleteUserId" name="id" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Имя</label>
+                        <input type="text" class="form-control" id="deleteFirstName" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Фамилия</label>
+                        <input type="text" class="form-control" id="deleteLastName" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Возраст</label>
+                        <input type="number" class="form-control" id="deleteAge" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" id="deleteEmail" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Роль</label>
+                        <input type="text" class="form-control" id="deleteRoles" readonly>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                <button type="submit" form="deleteUserForm" class="btn btn-danger">Удалить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script th:inline="javascript">
     document.addEventListener('DOMContentLoaded', function () {
         const adminTab = document.getElementById('admin-tab');
@@ -443,6 +497,25 @@
                 document.querySelectorAll('#editUserModal input[type="checkbox"]').forEach(checkbox => {
                     checkbox.checked = false;
                 });
+            });
+        });
+
+        // Обработчики для кнопок удаления
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const userId = this.getAttribute('data-user-id');
+                const firstName = this.getAttribute('data-user-firstname');
+                const lastName = this.getAttribute('data-user-lastname');
+                const age = this.getAttribute('data-user-age');
+                const email = this.getAttribute('data-user-email');
+                const roles = this.getAttribute('data-user-roles');
+
+                document.getElementById('deleteUserId').value = userId;
+                document.getElementById('deleteFirstName').value = firstName;
+                document.getElementById('deleteLastName').value = lastName;
+                document.getElementById('deleteAge').value = age;
+                document.getElementById('deleteEmail').value = email;
+                document.getElementById('deleteRoles').value = roles.replace(/\[|\]/g, '').replace(/Role\(id=/g, '').replace(/, /g, ', ').replace(/\)=/g, '');
             });
         });
     });
