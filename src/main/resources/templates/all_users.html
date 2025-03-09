@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Admin Panel</title>
+    <title>Панель администратора</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         .sidebar {
-            height: 100vh;
+            height: 150vh;
             width: 250px;
             position: fixed;
-            top: 0;
+            top: 40px; /* Смещаем вниз ниже header-bar */
             left: 0;
             background-color: #343a40;
             padding-top: 20px;
@@ -27,6 +27,28 @@
         .main-content {
             margin-left: 250px;
             padding: 20px;
+            padding-top: 80px; /* Увеличен отступ сверху, чтобы учесть новый блок */
+        }
+        .header-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #343a40;
+            color: #fff;
+            padding: 10px 20px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header-bar .user-info {
+            display: flex;
+            align-items: center;
+        }
+        .header-bar .logout {
+            margin-right: 20px;
         }
         #new-user .form-control {
             width: 50%;
@@ -56,32 +78,43 @@
     </style>
 </head>
 <body>
+<!-- Статичный тёмный блок вверху -->
+<div class="header-bar">
+    <div class="user-info">
+        <span th:with="firstRole=${#authentication.authorities != null and #authentication.authorities.size() > 0 ? #authentication.authorities[0].authority : 'Нет ролей'}"
+              th:text="${#authentication.principal.username} + ' с ролью: ' + ${firstRole}">
+        </span>
+    </div>
+    <div class="logout">
+        <a href="/logout" style="color: #fff; text-decoration: none;">Выход</a>
+    </div>
+</div>
+
 <!-- Боковая панель -->
 <div class="sidebar">
-    <a href="#" id="admin-tab">Admin</a>
-    <a href="#" id="user-tab">User</a>
-    <a href="/logout">Logout</a>
+    <a href="#" id="admin-tab">Администратор</a>
+    <a href="#" id="user-tab">Пользователь</a>
 </div>
 
 <!-- Основной контент -->
 <div class="main-content">
-    <h2 id="main-header">Admin Panel</h2>
+    <h2 id="main-header">Панель администратора</h2>
 
     <!-- Вкладки -->
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation" id="users-tab-item">
             <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab" aria-controls="users" aria-selected="true">
-                Users Table
+                Таблица пользователей
             </button>
         </li>
         <li class="nav-item" role="presentation" id="new-user-tab-item">
             <button class="nav-link" id="new-user-tab" data-bs-toggle="tab" data-bs-target="#new-user" type="button" role="tab" aria-controls="new-user" aria-selected="false">
-                New User
+                Новый пользователь
             </button>
         </li>
         <li class="nav-item" role="presentation" id="user-info-tab-item">
             <button class="nav-link" id="user-info-tab" data-bs-toggle="tab" data-bs-target="#user-info" type="button" role="tab" aria-controls="user-info" aria-selected="false">
-                User Info
+                Информация о пользователе
             </button>
         </li>
     </ul>
@@ -90,18 +123,18 @@
     <div class="tab-content" id="myTabContent">
         <!-- Вкладка "Users Table" -->
         <div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab">
-            <h3 class="mt-3">All Users</h3>
+            <h3 class="mt-3">Все пользователи</h3>
             <table class="table table-bordered">
                 <thead class="thead-dark">
                 <tr>
                     <th>ID</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Age</th>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Возраст</th>
                     <th>Email</th>
-                    <th>Role</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th>Роль</th>
+                    <th>Редактировать</th>
+                    <th>Удалить</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -125,12 +158,12 @@
                                 th:data-user-age="${user.age}"
                                 th:data-user-email="${user.email}"
                         >
-                            Edit
+                            Редактировать
                         </button>
                     </td>
                     <td>
                         <form th:method="POST" th:action="@{/delete(id=${user.id})}">
-                            <input type="submit" class="btn btn-danger btn-sm" value="Delete"/>
+                            <input type="submit" class="btn btn-danger btn-sm" value="Удалить"/>
                         </form>
                     </td>
                 </tr>
@@ -140,19 +173,19 @@
 
         <!-- Вкладка "New User" -->
         <div class="tab-pane fade" id="new-user" role="tabpanel" aria-labelledby="new-user-tab">
-            <h3 class="mt-3">Add New User</h3>
+            <h3 class="mt-3">Добавить нового пользователя</h3>
             <div class="form-container">
                 <form th:action="@{/addUser}" th:method="POST" th:object="${user}">
                     <div class="form-group mb-3">
-                        <label for="firstName">First Name</label>
+                        <label for="firstName">Имя</label>
                         <input type="text" class="form-control" id="firstName" th:field="*{firstName}" required>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="lastName">Last Name</label>
+                        <label for="lastName">Фамилия</label>
                         <input type="text" class="form-control" id="lastName" th:field="*{lastName}" required>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="age">Age</label>
+                        <label for="age">Возраст</label>
                         <input type="number" class="form-control" id="age" th:field="*{age}" required>
                     </div>
                     <div class="form-group mb-3">
@@ -160,11 +193,11 @@
                         <input type="email" class="form-control" id="email" th:field="*{email}" required>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="password">Password</label>
+                        <label for="password">Пароль</label>
                         <input type="password" class="form-control" id="password" th:field="*{password}" required>
                     </div>
                     <div class="form-group mb-3">
-                        <label>Roles</label>
+                        <label>Роли</label>
                         <div th:each="role : ${allRoles}">
                             <div class="form-check">
                                 <input
@@ -181,24 +214,24 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Add New User</button>
+                    <button type="submit" class="btn btn-primary">Добавить пользователя</button>
                 </form>
             </div>
         </div>
 
         <!-- Вкладка "User Info" -->
         <div class="tab-pane fade" id="user-info" role="tabpanel" aria-labelledby="user-info-tab">
-            <h3 id="user-info-header" class="mt-3">User Information - page</h3>
+            <h3 id="user-info-header" class="mt-3">Информация о пользователе</h3>
             <div th:if="${currentUser != null}">
                 <table class="table table-bordered">
                     <thead class="thead-dark">
                     <tr>
                         <th>ID</th>
-                        <th>FirstName</th>
-                        <th>LastName</th>
-                        <th>Age</th>
+                        <th>Имя</th>
+                        <th>Фамилия</th>
+                        <th>Возраст</th>
                         <th>Email</th>
-                        <th>Roles</th>
+                        <th>Роли</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -225,7 +258,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+                <h5 class="modal-title" id="editUserModalLabel">Редактировать пользователя</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form th:action="@{/update}" th:method="POST">
@@ -241,15 +274,15 @@
                                 readonly>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">First name</label>
+                        <label class="form-label">Имя</label>
                         <input type="text" class="form-control" name="firstName" id="editFirstName" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Last name</label>
+                        <label class="form-label">Фамилия</label>
                         <input type="text" class="form-control" name="lastName" id="editLastName" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Age</label>
+                        <label class="form-label">Возраст</label>
                         <input type="number" class="form-control" name="age" id="editAge" required>
                     </div>
                     <div class="mb-3">
@@ -257,11 +290,11 @@
                         <input type="email" class="form-control" name="email" id="editEmail" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Password</label>
+                        <label class="form-label">Пароль</label>
                         <input type="password" class="form-control" name="password" id="editPassword">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Roles</label>
+                        <label class="form-label">Роли</label>
                         <div th:each="role : ${allRoles}">
                             <div class="form-check">
                                 <input
@@ -280,8 +313,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
                 </div>
             </form>
         </div>
