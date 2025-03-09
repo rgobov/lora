@@ -13,99 +13,51 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-
 @Controller
-//
 public class UserController {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    private final UserService userService;
+
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
-    private UserService userService;
-
-
 
     @GetMapping("/admin")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public String getAllUsers(Model model) {
         model.addAttribute("users", userService.findAll());
         model.addAttribute("user", new User());
-        List<Role> allRoles = roleRepository.findAll();
-        model.addAttribute("allRoles", allRoles);
+        model.addAttribute("allRoles", roleRepository.findAll());
         return "all_users";
-    }
-
-    @GetMapping("/new")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String showFormAddUser(Model model) {
-        System.out.println("Сработал");
-        // Получаем все роли из базы данных
-        List<Role> allRoles = roleRepository.findAll();
-
-        // Передаем список ролей в модель
-        model.addAttribute("allRoles", allRoles);
-
-        // Передаем пустой объект User для формы
-        model.addAttribute("user", new User());
-
-        return "add_user"; // Имя Thymeleaf шаблона
     }
 
     @PostMapping("/addUser")
     @PreAuthorize("hasRole('ADMIN')")
     public String addUser(
             @ModelAttribute("user") User user,
-            @RequestParam(value = "roles", required = false) Set<Long> roleIds // Принимаем ID ролей
+            @RequestParam(value = "roles", required = false) Set<Long> roleIds
     ) {
         if (roleIds != null && !roleIds.isEmpty()) {
             Set<Role> roles = roleIds.stream()
-                    .map(id -> roleRepository.findById(Long.valueOf(id))) // Ищем роли по ID
-                    .filter(Optional::isPresent) // Отфильтровываем пустые Optional
-                    .map(Optional::get) // Извлекаем Role из Optional
+                    .map(id -> roleRepository.findById(Long.valueOf(id)))
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
                     .collect(Collectors.toSet());
-            user.setRoles(roles); // Устанавливаем роли для пользователя
+            user.setRoles(roles);
         } else {
-            user.setRoles(Set.of()); // Если роли не переданы, устанавливаем пустой набор
+            user.setRoles(Set.of());
         }
-
-        userService.save(user); // Сохраняем пользователя
-        return "redirect:/admin"; // Перенаправляем на страницу админа
+        userService.save(user);
+        return "redirect:/admin";
     }
-
-
-    @GetMapping("/show")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String showUserById(@RequestParam("id") int id, Model model) {
-        User user = userService.findById(id);
-        if (user == null) {
-            return "redirect:/user";
-        } else {
-            model.addAttribute("user", user);
-            return "selected_user";
-        }
-    }
-
-    @GetMapping("edit")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String editUser(Model model, @RequestParam("id") int id) {
-        model.addAttribute("user", userService.findById(id));
-        return "edit_user";
-    }
-
-//    @PostMapping("/update")
-//    @PreAuthorize("hasRole('ADMIN')")
-//    public String updateUser(@ModelAttribute("user") User user, @RequestParam("id") int id) {
-//        userService.update(id, user);
-//        return "redirect:/affterUpdate?id=" + id;
-//
-//    }
 
     @PostMapping("/update")
     @PreAuthorize("hasRole('ADMIN')")
@@ -124,11 +76,11 @@ public class UserController {
         user.setLastName(lastName);
         user.setAge(age);
         user.setEmail(email);
-        if(password != null && !password.isEmpty()) {
+        if (password != null && !password.isEmpty()) {
             user.setPassword(password);
         }
 
-        if(roleIds != null) {
+        if (roleIds != null) {
             Set<Role> roles = roleIds.stream()
                     .map(roleRepository::findById)
                     .filter(Optional::isPresent)
@@ -137,42 +89,20 @@ public class UserController {
             user.setRoles(roles);
         }
 
-        userService.update(id,user);
+        userService.update(id, user);
         return "redirect:/admin";
-    }
-
-    @GetMapping("/affterUpdate")
-    public String affterUpdate(Model model, @RequestParam("id") int id) {
-        User user = userService.findById(id);
-        model.addAttribute("user", user);
-        return "selected_user"; // Return the view name
     }
 
     @PostMapping("/delete")
     @PreAuthorize("hasRole('ADMIN')")
-    public String deleteUser(@ModelAttribute("user") User user, @RequestParam("id") int id) {
+    public String deleteUser(@RequestParam("id") int id) {
         userService.delete(id);
-        return "redirect:/affterDelite";
+        return "redirect:/admin";
     }
-    @GetMapping("/affterDelite")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String affterDelite(Model model) {
-        model.addAttribute("users", userService.findAll());
-        model.addAttribute("user", new User());
-        return "all_users";
-    }
-    @GetMapping("/user")
-    public String ordinarUser(Model model) {
-        UserDetails userDetails =
-                (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("user", userService.findByUserName(userDetails.getUsername()));
-        return "ordinar_user";
-    }
-
 
     @GetMapping("/login")
     public String login() {
-        return "login"; // Имя шаблона (login.html)
+        return "login";
     }
 
     @ModelAttribute("currentUser")
@@ -182,8 +112,6 @@ public class UserController {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             return userService.findByUserName(userDetails.getUsername());
         }
-        return null; // или вернуть пустой объект User
+        return null;
     }
 }
-
-
