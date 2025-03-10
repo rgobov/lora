@@ -22,9 +22,6 @@ public class User {
     @NotEmpty(message = "Enter email")
     private String email;
 
-    @Column(name = "userName")
-    private String userName;
-
     @Column(name = "password")
     @NotEmpty(message = "Enter password")
     private String password;
@@ -49,7 +46,6 @@ public class User {
     public User(String firstName, String email, String password, Set<Role> roles, int age, String lastName) {
         this.firstName = firstName;
         this.email = email;
-        this.userName = email; // Set userName to email
         this.password = password;
         this.roles = roles;
         this.age = age;
@@ -80,12 +76,9 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-        this.userName = email; // Synchronize userName with email
+
     }
 
-    public String getUserName() {
-        return userName;
-    }
 
     public void setUserName(String userName) {
         // Do not allow direct modification of userName

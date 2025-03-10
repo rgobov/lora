@@ -1,9 +1,11 @@
 package com.example.security.spring_security.configs;
 
+import com.example.security.spring_security.seurity.AuthProviderImpl;
 import com.example.security.spring_security.seurity.CustomsDetailsServise;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,6 +29,7 @@ public class WebSecurityConfig {
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
+                        .usernameParameter("email")
                         .successHandler(loginSuccessHandler)
                         .permitAll()
                 )
@@ -43,7 +46,12 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
+    public AuthenticationProvider authenticationProvider() {
+        return new AuthProviderImpl(customsDetailsServise(), passwordEncoder());
+    }
+
+    @Bean
+    public CustomsDetailsServise customsDetailsServise() {
         return new CustomsDetailsServise();
     }
 

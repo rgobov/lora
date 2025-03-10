@@ -428,6 +428,14 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
                     <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                    <script>
+                        document.querySelector('form').addEventListener('submit', function(event) {
+                            const passwordInput = document.getElementById('password');
+                            if (passwordInput.value === '') {
+                                passwordInput.disabled = true; // Отключаем поле, чтобы оно не было отправлено
+                            }
+                        });
+                    </script>
                 </div>
             </form>
         </div>

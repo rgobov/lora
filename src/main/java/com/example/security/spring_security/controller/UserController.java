@@ -110,7 +110,7 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated() && !(authentication.getPrincipal() instanceof String)) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            return userService.findByUserName(userDetails.getUsername());
+            return userService.findByEmail(userDetails.getUsername());
         }
         return null;
     }
