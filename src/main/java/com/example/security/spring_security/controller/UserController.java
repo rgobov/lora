@@ -1,27 +1,18 @@
 package com.example.security.spring_security.controller;
 
-import com.example.security.spring_security.model.Role;
 import com.example.security.spring_security.model.User;
-import com.example.security.spring_security.repositories.RoleRepository;
 import com.example.security.spring_security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
 public class UserController {
-
-    @Autowired
-    private RoleRepository roleRepository;
 
     private final UserService userService;
 
@@ -35,27 +26,17 @@ public class UserController {
     public String getAllUsers(Model model) {
         model.addAttribute("users", userService.findAll());
         model.addAttribute("user", new User());
-        model.addAttribute("allRoles", roleRepository.findAll());
+        model.addAttribute("allRoles", userService.findAll().stream()
+                .flatMap(u -> u.getRoles()
+                        .stream()).distinct().collect(Collectors.toSet()));
+        model.addAttribute("currentUser", userService.getCurrentUser());
         return "all_users";
     }
 
     @PostMapping("/addUser")
     @PreAuthorize("hasRole('ADMIN')")
-    public String addUser(
-            @ModelAttribute("user") User user,
-            @RequestParam(value = "roles", required = false) Set<Long> roleIds
-    ) {
-        if (roleIds != null && !roleIds.isEmpty()) {
-            Set<Role> roles = roleIds.stream()
-                    .map(id -> roleRepository.findById(Long.valueOf(id)))
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
-                    .collect(Collectors.toSet());
-            user.setRoles(roles);
-        } else {
-            user.setRoles(Set.of());
-        }
-        userService.save(user);
+    public String addUser(@ModelAttribute("user") User user, @RequestParam(value = "roles", required = false) Set<Long> roleIds) {
+        userService.createUser(user, roleIds);
         return "redirect:/admin";
     }
 
@@ -70,26 +51,7 @@ public class UserController {
             @RequestParam(value = "password", required = false) String password,
             @RequestParam(value = "roles", required = false) Set<Long> roleIds
     ) {
-        User user = new User();
-        user.setId(id);
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setAge(age);
-        user.setEmail(email);
-        if (password != null && !password.isEmpty()) {
-            user.setPassword(password);
-        }
-
-        if (roleIds != null) {
-            Set<Role> roles = roleIds.stream()
-                    .map(roleRepository::findById)
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
-                    .collect(Collectors.toSet());
-            user.setRoles(roles);
-        }
-
-        userService.update(id, user);
+        userService.updateUser(id, firstName, lastName, age, email, password, roleIds);
         return "redirect:/admin";
     }
 
@@ -107,11 +69,6 @@ public class UserController {
 
     @ModelAttribute("currentUser")
     public User getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated() && !(authentication.getPrincipal() instanceof String)) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            return userService.findByEmail(userDetails.getUsername());
-        }
-        return null;
+        return userService.getCurrentUser();
     }
 }
