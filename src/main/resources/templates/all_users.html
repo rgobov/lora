@@ -379,20 +379,36 @@
             new bootstrap.Tab(document.getElementById('user-info-tab')).show();
         }
 
+        // Проверка роли пользователя и управление видимостью
         fetch('/api/users/current', { credentials: 'include' })
             .then(response => response.json())
             .then(user => {
                 const isAdmin = user.roles.some(role => role.roleName === 'ROLE_ADMIN');
                 const isUser = user.roles.some(role => role.roleName === 'ROLE_USER');
-                if (isUser && !isAdmin) {
+
+                if (isAdmin) {
+                    // Админ видит всё
+                    adminTab.style.display = 'block';
+                    userTab.style.display = 'block';
+                    showAdminTabs();
+                } else if (isUser) {
+                    // Пользователь с ROLE_USER видит только вкладку "Пользователь"
+                    adminTab.style.display = 'none'; // Скрываем вкладку "Администратор"
+                    userTab.style.display = 'block';
                     userTab.classList.add('user-active');
                     showUserInfoTab();
-                } else if (isAdmin) {
-                    adminTab.style.display = 'block';
-                    showAdminTabs();
                 } else {
+                    // Если нет ролей (на всякий случай)
                     adminTab.style.display = 'none';
+                    userTab.style.display = 'block';
+                    showUserInfoTab();
                 }
+            })
+            .catch(error => {
+                console.error('Error fetching current user:', error);
+                adminTab.style.display = 'none';
+                userTab.style.display = 'block';
+                showUserInfoTab();
             });
 
         adminTab.addEventListener('click', function (event) {
