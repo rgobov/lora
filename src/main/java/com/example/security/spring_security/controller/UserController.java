@@ -21,15 +21,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/admin")
+    @GetMapping("/mainPage")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public String getAllUsers(Model model) {
-        model.addAttribute("users", userService.findAll());
-        model.addAttribute("user", new User());
-        model.addAttribute("allRoles", userService.findAll().stream()
-                .flatMap(u -> u.getRoles()
-                        .stream()).distinct().collect(Collectors.toSet()));
-        model.addAttribute("currentUser", userService.getCurrentUser());
         return "all_users";
     }
 

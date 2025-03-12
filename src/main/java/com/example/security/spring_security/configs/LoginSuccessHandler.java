@@ -32,9 +32,9 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         // Перенаправляем в зависимости от роли
         if (isAdmin) {
-            response.sendRedirect("/admin");
+            response.sendRedirect("/mainPage");
         } else if (isUser) {
-            response.sendRedirect("/admin");
+            response.sendRedirect("/mainPage");
         } else {
             // Если роль не определена, перенаправляем на страницу по умолчанию
             response.sendRedirect("/user");
