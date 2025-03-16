@@ -77,9 +77,5 @@ public class UserRestController {
         return "all_users";
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
 
 }
