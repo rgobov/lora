@@ -71,11 +71,5 @@ public class UserRestController {
     }
 
 
-    @GetMapping("/mainPage")
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    public String getAllUsers(Model model) {
-        return "all_users";
     }
 
-
-}
