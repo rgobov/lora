@@ -136,7 +136,29 @@
     </div>
   </div>
 </footer>
+<div class="chat-widget">
+  <div class="chat-options" style="display: none;">
+    <a href="https://wa.me/79122488565" target="_blank" aria-label="Чат в WhatsApp">
+      <i class="fab fa-whatsapp"></i> WhatsApp
+    </a>
+    <a href="tg://msg?to=+79122488565"
+       onclick="if (!navigator.userAgent.match(/Android|iPhone|iPad|iPod/i)) {
+         alert('Пожалуйста, добавьте +79122488565 в контакты Telegram и начните чат.');
+         return false;
+       }"
+       aria-label="Чат в Telegram">
+      <i class="fab fa-telegram"></i> Telegram
+    </a>
+  </div>
+  <button class="chat-button" aria-label="Открыть варианты чата">Чат</button>
+</div>
 
+<script>
+  document.querySelector('.chat-button').addEventListener('click', function() {
+    var options = document.querySelector('.chat-options');
+    options.style.display = options.style.display === 'none' ? 'block' : 'none';
+  });
+</script>
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
