@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
-public class CustomsDetailsServise implements UserDetailsService {
+public class CustomDetailsServise implements UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired

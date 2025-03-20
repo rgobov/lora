@@ -7,7 +7,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -16,8 +15,8 @@ public class AuthProviderImpl implements AuthenticationProvider {
     private UserDetailsService customsDetailsServise;
     public PasswordEncoder passwordEncoder;
 
-    public AuthProviderImpl(CustomsDetailsServise customsDetailsServise,PasswordEncoder passwordEncoder) {
-        this.customsDetailsServise = customsDetailsServise;
+    public AuthProviderImpl(CustomDetailsServise customDetailsServise, PasswordEncoder passwordEncoder) {
+        this.customsDetailsServise = customDetailsServise;
         this.passwordEncoder = passwordEncoder;
     }
 

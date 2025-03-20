@@ -1,0 +1,200 @@
+/* Общие стили */
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: #000000;
+    background: #F5F1E9;
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+}
+
+/* Хедер */
+.header {
+    background: #F5F1E9;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar {
+    padding: 20px 0;
+}
+
+.logo {
+    font-size: 24px;
+    font-family: 'Playfair Display', serif;
+    color: #000000;
+}
+
+.nav-link {
+    color: #000000 !important;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: #D4AF37 !important;
+}
+
+/* Герой-секция */
+.hero {
+    background: url('/hero-image.jpg') no-repeat center/cover;
+    height: 100vh;
+    position: relative;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    color: #000000;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.btn-custom {
+    background: #F8E1E9;
+    color: #000000;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.btn-custom:hover {
+    background: #D4AF37;
+    color: #FFFFFF;
+}
+
+/* Услуги */
+.services {
+    padding: 80px 0;
+}
+
+.services h2 {
+    font-size: 36px;
+}
+
+.service-card {
+    background: #FFFFFF;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.service-card img {
+    height: 200px;
+    object-fit: cover;
+}
+
+.service-card h3 {
+    font-size: 24px;
+    margin: 15px 0;
+}
+
+.service-card p {
+    font-size: 16px;
+}
+
+/* Обо мне */
+.about {
+    padding: 80px 0;
+    background: #F8E1E9;
+}
+
+.about h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.about p {
+    font-size: 16px;
+}
+
+/* Контакты */
+.contacts {
+    padding: 80px 0;
+}
+
+.contacts h2 {
+    font-size: 36px;
+}
+
+.contact-form .form-control {
+    border: 1px solid #D3D3D3;
+    border-radius: 5px;
+    padding: 12px;
+}
+
+.contact-info p {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.map-placeholder {
+    height: 200px;
+    background: #D3D3D3;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Футер */
+.footer {
+    background: #F5F1E9;
+    border-top: 1px solid #D3D3D3;
+}
+
+.social-icon {
+    width: 30px;
+    transition: transform 0.3s;
+}
+
+.social-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Анимация */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 32px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .service-card img {
+        height: 150px;
+    }
+}
