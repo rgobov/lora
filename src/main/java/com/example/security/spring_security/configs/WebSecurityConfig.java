@@ -29,7 +29,8 @@ public class WebSecurityConfig {
                         .requestMatchers("/login", "/error", "/api/users/**", "/admin/**", "roles","/lora",
                                 "/styles.css","/hero-image.jpg", "/smas-lifting.jpg",
                                 "/rf-microneedling.jpg", "/skincare.jpg", "/lora-gobova.jpg",
-                                "/instagram-icon.png", "/telegram-icon.png").permitAll()
+                                "/instagram-icon.png", "/telegram-icon.png","/whatsapp-icon.png",
+                                "/telegram-icon.png","instagram-icon.png").permitAll()
                         .requestMatchers("/user", "/mainPage").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/admin/**").hasAnyRole("ADMIN", "USER")
                         .anyRequest().authenticated()
