@@ -324,4 +324,25 @@ h1, h2, h3 {
     object-fit: contain; /* Изображение масштабируется, чтобы полностью поместиться в блок, без обрезки */
     object-position: center;
     background-color: #f8f9fa; /* Цвет фона для пустых областей, если изображение не заполняет блок */
+}.about .row {
+     --bs-gutter-x: 1rem; /* Уменьшаем горизонтальный отступ между колонками */
+ }
+
+.about img {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Легкая тень */
+    border: 2px solid #f8f9fa; /* Тонкая рамка */
+}
+
+.about p.lead {
+    font-size: 1.25rem; /* Увеличиваем размер текста для первого абзаца */
+    font-weight: 500;
+}
+
+@media (max-width: 767px) {
+    .about .row > div {
+        margin-bottom: 1rem; /* Уменьшаем отступ между фото и текстом на мобильных устройствах */
+    }
+    .about .row > div:last-child {
+        margin-bottom: 0; /* Убираем отступ у последнего элемента */
+    }
 }
