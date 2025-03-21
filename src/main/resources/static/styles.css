@@ -1,42 +1,58 @@
 /* Общие стили */
 body {
     font-family: 'Open Sans', sans-serif;
-    color: #000000;
-    background: #F5F1E9;
+    color: #333333; /* Темно-серый для текста */
+    background: #F5F1E9; /* Светлый бежевый фон */
     line-height: 1.6;
 }
 
 h1, h2, h3 {
     font-family: 'Playfair Display', serif;
+    color: #333333; /* Темно-серый для заголовков */
 }
 
 /* Хедер */
 .header {
-    background: #F5F1E9;
-    position: fixed;
+    background: #F5F1E9; /* Унифицированный светлый бежевый фон */
+    position: relative; /* Изменили с fixed на relative */
     width: 100%;
-    top: 0;
-    z-index: 1000;
+    z-index: 2; /* Добавили z-index */
 }
 
 .navbar {
-    padding: 20px 0;
+    padding: 30px 0;
 }
 
-.logo {
-    font-size: 24px;
-    font-family: 'Playfair Display', serif;
-    color: #000000;
+.navbar-nav {
+    list-style: none;
+    padding-left: 0;
+}
+
+.nav-item {
+    list-style: none;
 }
 
 .nav-link {
-    color: #000000 !important;
+    color: #333333 !important;
     font-size: 16px;
     transition: color 0.3s;
 }
 
 .nav-link:hover {
-    color: #D4AF37 !important;
+    color: #D4AF37 !important; /* Золотистый при наведении */
+}
+
+.logo {
+    font-size: 24px;
+    font-family: 'Playfair Display', serif;
+    color: #333333;
+}
+
+/* Скрываем navbar-toggler на десктопе */
+@media (min-width: 992px) {
+    .navbar-toggler {
+        display: none;
+    }
 }
 
 /* Герой-секция */
@@ -59,7 +75,7 @@ h1, h2, h3 {
 .hero-content {
     position: relative;
     z-index: 1;
-    color: #000000;
+    color: #333333;
     animation: fadeIn 1s ease-in-out;
 }
 
@@ -73,18 +89,20 @@ h1, h2, h3 {
     margin-bottom: 30px;
 }
 
+/* Кнопки */
 .btn-custom {
-    background: #F8E1E9;
-    color: #000000;
+    background: #D4AF37; /* Золотистый */
+    color: #333333; /* Темно-серый текст */
     border: none;
     padding: 12px 24px;
     border-radius: 5px;
-    transition: background 0.3s;
+    transition: background 0.3s, color 0.3s;
+    text-decoration: none;
 }
 
 .btn-custom:hover {
-    background: #D4AF37;
-    color: #FFFFFF;
+    background: #ff6f61; /* Коралловый при наведении */
+    color: #333333;
 }
 
 /* Услуги */
@@ -142,31 +160,80 @@ h1, h2, h3 {
     font-size: 36px;
 }
 
-.contact-form .form-control {
-    border: 1px solid #D3D3D3;
-    border-radius: 5px;
-    padding: 12px;
+.contact-info ul {
+    padding: 0;
 }
 
-.contact-info p {
-    font-size: 16px;
-    margin-bottom: 10px;
+.contact-info li {
+    font-size: 18px;
+    margin-bottom: 15px;
 }
 
-.map-placeholder {
-    height: 200px;
-    background: #D3D3D3;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
+.contact-link {
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.telegram-link {
+    color: #0088cc;
+}
+
+.telegram-link:hover {
+    color: #006699;
+}
+
+.whatsapp-link {
+    color: #1DA851;
+}
+
+.whatsapp-link:hover {
+    color: #25D366;
+}
+
+.contact-info i {
+    color: #D4AF37;
+    margin-right: 8px;
+}
+
+/* Статья */
+.article {
+    padding: 100px 0 50px; /* Обновили padding для соответствия mediderma-skincare.html */
+}
+
+.article h1 {
+    font-size: 2.5rem; /* 40px при базовом размере шрифта 16px */
+    color: #333333;
+    margin-bottom: 2rem;
+}
+
+.article h2 {
+    font-size: 1.8rem; /* 28.8px */
+    color: #333333;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.article p {
+    font-size: 1.1rem; /* 17.6px */
+    color: #555555; /* Темно-серый для текста */
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.article ul, .article ol {
+    margin-bottom: 1rem;
+    padding-left: 20px;
+}
+
+.article li {
+    margin-bottom: 0.5rem;
 }
 
 /* Футер */
 .footer {
     background: #F5F1E9;
     border-top: 1px solid #D3D3D3;
+    padding: 40px 0; /* Оставляем как в styles.css */
 }
 
 .social-icon {
@@ -178,10 +245,50 @@ h1, h2, h3 {
     transform: scale(1.1);
 }
 
+/* Чат-виджет */
+.chat-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.chat-options {
+    background: #FFFFFF;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.chat-options a {
+    display: block;
+    margin: 5px 0;
+    text-decoration: none;
+    color: #007bff;
+}
+
+.chat-button {
+    background: #007bff;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
 /* Анимация */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Адаптивность */
@@ -197,4 +304,24 @@ h1, h2, h3 {
     .service-card img {
         height: 150px;
     }
+
+    .contact-info li {
+        font-size: 16px;
+    }
+
+    .article h1 {
+        font-size: 28px;
+    }
+
+    .article p {
+        font-size: 14px;
+    }
+}
+
+.card-img-top {
+    width: 100%;
+    height: 200px;
+    object-fit: contain; /* Изображение масштабируется, чтобы полностью поместиться в блок, без обрезки */
+    object-position: center;
+    background-color: #f8f9fa; /* Цвет фона для пустых областей, если изображение не заполняет блок */
 }
