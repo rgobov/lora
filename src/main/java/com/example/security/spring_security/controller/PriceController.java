@@ -22,7 +22,7 @@ public class PriceController {
     private String generateHtml(List<ServiceCategory> categories) {
         StringBuilder html = new StringBuilder();
 
-        // Начало HTML-документа с подключением стилей из шаблона lora
+        // Начало HTML-документа с подключением стилей из шаблона Lora
         html.append("<!DOCTYPE html>\n")
                 .append("<html lang=\"ru\">\n")
                 .append("<head>\n")
@@ -36,7 +36,7 @@ public class PriceController {
                 .append("</head>\n")
                 .append("<body>\n");
 
-        // Хедер (как в шаблоне lora)
+        // Хедер (обновлены ссылки)
         html.append("<header class=\"header\">\n")
                 .append("    <nav class=\"navbar navbar-expand-lg navbar-light\">\n")
                 .append("        <div class=\"container\">\n")
@@ -46,10 +46,11 @@ public class PriceController {
                 .append("            </button>\n")
                 .append("            <div class=\"collapse navbar-collapse\" id=\"navbarNav\">\n")
                 .append("                <ul class=\"navbar-nav ms-auto\">\n")
-                .append("                    <li class=\"nav-item\"><a class=\"nav-link\" href=\"#home\">Главная</a></li>\n")
-                .append("                    <li class=\"nav-item\"><a class=\"nav-link\" href=\"#services\">Услуги</a></li>\n")
-                .append("                    <li class=\"nav-item\"><a class=\"nav-link\" href=\"#about\">Обо мне</a></li>\n")
-                .append("                    <li class=\"nav-item\"><a class=\"nav-link\" href=\"#contacts\">Контакты</a></li>\n")
+                .append("                    <li class=\"nav-item\"><a class=\"nav-link\" href=\"/\">Главная</a></li>\n")
+                .append("                    <li class=\"nav-item\"><a class=\"nav-link\" href=\"/#services\">Услуги</a></li>\n")
+                .append("                    <li class=\"nav-item\"><a class=\"nav-link\" href=\"/#about\">Обо мне</a></li>\n")
+                .append("                    <li class=\"nav-item\"><a class=\"nav-link\" href=\"/price\">Цены</a></li>\n") // Добавлен пункт "Цены"
+                .append("                    <li class=\"nav-item\"><a class=\"nav-link\" href=\"/#contacts\">Контакты</a></li>\n")
                 .append("                </ul>\n")
                 .append("            </div>\n")
                 .append("        </div>\n")
@@ -60,12 +61,12 @@ public class PriceController {
         html.append("<section id=\"price\" class=\"price py-5\">\n")
                 .append("    <div class=\"container\">\n")
                 .append("        <h1 class=\"text-center mb-5\">Цены</h1>\n")
-                .append("        <div class=\"row justify-content-center\">\n") // Центрируем таблицы
-                .append("            <div class=\"col-lg-10 col-md-12\">\n"); // Ограничиваем ширину таблиц
+                .append("        <div class=\"row justify-content-center\">\n")
+                .append("            <div class=\"col-lg-10 col-md-12\">\n");
 
         // Генерация списка категорий и услуг
         for (ServiceCategory category : categories) {
-            html.append("                <table class=\"table table-striped table-bordered mb-5\">\n") // Увеличенный отступ mb-5
+            html.append("                <table class=\"table table-striped table-bordered mb-5\">\n")
                     .append("                    <thead>\n")
                     .append("                        <tr>\n")
                     .append("                            <th>").append(category.getName()).append("</th>\n")
@@ -87,7 +88,7 @@ public class PriceController {
                 }
 
                 html.append("                            </td>\n")
-                        .append("                            <td class=\"align-middle text-end\">\n") // Выравнивание по правому краю
+                        .append("                            <td class=\"align-middle text-end\">\n")
                         .append("                                <span class=\"price-value\">").append(service.getPrice()).append(" ₽</span>\n")
                         .append("                                <a href=\"#\" class=\"btn btn-custom btn-sm book-service ms-3\" data-service=\"")
                         .append(displayName).append("\">Записаться</a>\n")
@@ -104,7 +105,7 @@ public class PriceController {
                 .append("    </div>\n")
                 .append("</section>\n");
 
-        // Футер (как в шаблоне lora)
+        // Футер
         html.append("<footer class=\"footer py-4\">\n")
                 .append("    <div class=\"container text-center\">\n")
                 .append("        <div class=\"footer-content\">\n")
@@ -300,7 +301,7 @@ public class PriceController {
         Service bioFitoCristina = new Service();
         bioFitoCristina.setName("УХОД ЗА ЧУВСТВИТЕЛЬНОЙ, РАЗДРАЖЕННОЙ КОЖЕЙ И КОЖЕЙ С ПРИЗНАКАМИ КУПЕРОЗА BIO PHYTO CRISTINA");
         bioFitoCristina.setDescription("В основе линии лежит уникальный союз науки и природы, помогающий коже бороться с " +
-                "неблагоприятным воздействием окружающей среды изнутри и защищающий от её негативных факторов");
+                "неблагоприятным воздействием окружающей среды из壽нутри и защищающий от её негативных факторов");
         bioFitoCristina.setPrice(3300);
 
         Service glow = new Service();
