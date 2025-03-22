@@ -31,7 +31,8 @@ public class WebSecurityConfig {
                                 "/rf-microneedling.jpg", "/skincare.jpg", "/lora-gobova.jpg",
                                 "/instagram-icon.png", "/telegram-icon.png","/whatsapp-icon.png",
                                 "/telegram-icon.png","instagram-icon.png","/smas-lifting","/rf-microneedling",
-                                "/mediderma-skincare","/chiromassage","/chiromassage.jpg").permitAll()
+                                "/mediderma-skincare","/chiromassage","/chiromassage.jpg","/price",
+                                "/api/price").permitAll()
                         .requestMatchers("/user", "/mainPage").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/admin/**").hasAnyRole("ADMIN", "USER")
                         .anyRequest().authenticated()
