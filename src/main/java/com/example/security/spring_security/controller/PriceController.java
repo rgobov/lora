@@ -242,10 +242,10 @@ public class PriceController {
         retinolYellowPilling.setName("РЕТИНОЛОВЫЙ ЖЁЛТЫЙ ПИЛИНГ С СИСТЕМОЙ 3-РЕТИНОЛ");
         retinolYellowPilling.setDescription("3-RetisestCT - это наиболее эффективное средство для борьбы с основными " +
                 "признаками старения на основании липосомированного ретинола");
-        retinolYellowPilling.setPrice(4300);
+        retinolYellowPilling.setPrice(4500);
 
         Service retisesCTPilling = new Service();
-        retisesCTPilling.setName("РЕТИНОВЫЙ RETISES CT ПИЛИНГ");
+        retisesCTPilling.setName("РЕТИНОЛОВЫЙ RETISES CT ПИЛИНГ");
         retisesCTPilling.setPrice(4000);
 
         Service salicilPilling = new Service();
@@ -258,12 +258,12 @@ public class PriceController {
         salicilNanoPilling.setName("САЛИЦИЛОВЫЙ НАНО ПИЛИНГ SALIPEEL LIC");
         salicilNanoPilling.setDescription("Система наносомальных пилингов на основе салициловой, лимонной " +
                 "и линолевой кислот. Предназначен для борьбы с акне средней тяжести, кератоза, фолликулита, розацеи, " +
-                "псориаза, себорее кожи и волосистой части головы");
+                "псориаза, себореи кожи и волосистой части головы");
         salicilNanoPilling.setPrice(3500);
 
         Service jesnerPilling = new Service();
-        jesnerPilling.setName("ПИЛИНГ ДЖЕСНЕРА");
-        jesnerPilling.setDescription("Смесь гидрокислот молочной, лимонной, салициловой и резорцина");
+        jesnerPilling.setName("ПИЛИНГ ДЖЕССНЕРА");
+        jesnerPilling.setDescription("Смесь гидроксикислот молочной, лимонной, салициловой и резорцина");
         jesnerPilling.setPrice(4000);
 
         Service coffeePilling = new Service();
@@ -301,7 +301,7 @@ public class PriceController {
         Service bioFitoCristina = new Service();
         bioFitoCristina.setName("УХОД ЗА ЧУВСТВИТЕЛЬНОЙ, РАЗДРАЖЕННОЙ КОЖЕЙ И КОЖЕЙ С ПРИЗНАКАМИ КУПЕРОЗА BIO PHYTO CRISTINA");
         bioFitoCristina.setDescription("В основе линии лежит уникальный союз науки и природы, помогающий коже бороться с " +
-                "неблагоприятным воздействием окружающей среды из壽нутри и защищающий от её негативных факторов");
+                "неблагоприятным воздействием окружающей среды изнутри и защищающий от её негативных факторов");
         bioFitoCristina.setPrice(3300);
 
         Service glow = new Service();
