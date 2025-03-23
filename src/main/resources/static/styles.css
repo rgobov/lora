@@ -1,22 +1,26 @@
 /* Общие стили */
 body {
     font-family: 'Open Sans', sans-serif;
-    color: #333333; /* Темно-серый для текста */
-    background: #F5F1E9; /* Светлый бежевый фон */
+    color: #333333;
+    background: #F5F1E9;
     line-height: 1.6;
+    padding-top: 90px; /* Отступ для фиксированного хедера */
 }
 
 h1, h2, h3 {
     font-family: 'Playfair Display', serif;
-    color: #333333; /* Темно-серый для заголовков */
+    color: #333333;
 }
 
 /* Хедер */
 .header {
-    background: #F5F1E9; /* Унифицированный светлый бежевый фон */
-    position: relative; /* Изменили с fixed на relative */
+    background: #F5F1E9;
+    position: fixed;
+    top: 0;
     width: 100%;
-    z-index: 2; /* Добавили z-index */
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: top 0.3s ease; /* Плавность для скрытия/показа */
 }
 
 .navbar {
@@ -39,7 +43,7 @@ h1, h2, h3 {
 }
 
 .nav-link:hover {
-    color: #D4AF37 !important; /* Золотистый при наведении */
+    color: #D4AF37 !important;
 }
 
 .logo {
@@ -48,7 +52,6 @@ h1, h2, h3 {
     color: #333333;
 }
 
-/* Скрываем navbar-toggler на десктопе */
 @media (min-width: 992px) {
     .navbar-toggler {
         display: none;
@@ -91,8 +94,8 @@ h1, h2, h3 {
 
 /* Кнопки */
 .btn-custom {
-    background: #D4AF37; /* Золотистый */
-    color: #333333; /* Темно-серый текст */
+    background: #D4AF37;
+    color: #333333;
     border: none;
     padding: 12px 24px;
     border-radius: 5px;
@@ -101,8 +104,29 @@ h1, h2, h3 {
 }
 
 .btn-custom:hover {
-    background: #ff6f61; /* Коралловый при наведении */
+    background: #ff6f61;
     color: #333333;
+}
+
+/* Секция консультации */
+.consultation-teaser {
+    background: #F8E1E9;
+    padding: 60px 0;
+}
+
+.consultation-teaser h2 {
+    font-size: 36px;
+    font-family: 'Playfair Display', serif;
+}
+
+.consultation-teaser p {
+    font-size: 16px;
+    color: #555555;
+}
+
+.consultation-teaser .lead {
+    font-size: 20px;
+    font-weight: 500;
 }
 
 /* Услуги */
@@ -119,7 +143,12 @@ h1, h2, h3 {
     border: none;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    animation: fadeIn 0.5s ease-in-out;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
 .service-card img {
@@ -195,45 +224,11 @@ h1, h2, h3 {
     margin-right: 8px;
 }
 
-/* Статья */
-.article {
-    padding: 100px 0 50px; /* Обновили padding для соответствия mediderma-skincare.html */
-}
-
-.article h1 {
-    font-size: 2.5rem; /* 40px при базовом размере шрифта 16px */
-    color: #333333;
-    margin-bottom: 2rem;
-}
-
-.article h2 {
-    font-size: 1.8rem; /* 28.8px */
-    color: #333333;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-}
-
-.article p {
-    font-size: 1.1rem; /* 17.6px */
-    color: #555555; /* Темно-серый для текста */
-    line-height: 1.6;
-    margin-bottom: 1rem;
-}
-
-.article ul, .article ol {
-    margin-bottom: 1rem;
-    padding-left: 20px;
-}
-
-.article li {
-    margin-bottom: 0.5rem;
-}
-
 /* Футер */
 .footer {
     background: #F5F1E9;
     border-top: 1px solid #D3D3D3;
-    padding: 40px 0; /* Оставляем как в styles.css */
+    padding: 40px 0;
 }
 
 .social-icon {
@@ -296,98 +291,22 @@ h1, h2, h3 {
     .hero h1 {
         font-size: 32px;
     }
-
     .hero p {
         font-size: 16px;
     }
-
     .service-card img {
         height: 150px;
     }
-
     .contact-info li {
         font-size: 16px;
-    }
-
-    .article h1 {
-        font-size: 28px;
-    }
-
-    .article p {
-        font-size: 14px;
     }
 }
 
 .card-img-top {
     width: 100%;
     height: 200px;
-    object-fit: contain; /* Изображение масштабируется, чтобы полностью поместиться в блок, без обрезки */
+    object-fit: contain;
     object-position: center;
-    background-color: #f8f9fa; /* Цвет фона для пустых областей, если изображение не заполняет блок */
-}.about .row {
-     --bs-gutter-x: 1rem; /* Уменьшаем горизонтальный отступ между колонками */
- }
-
-.about img {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Легкая тень */
-    border: 2px solid #f8f9fa; /* Тонкая рамка */
+    background-color: #f8f9fa;
 }
 
-.about p.lead {
-    font-size: 1.25rem; /* Увеличиваем размер текста для первого абзаца */
-    font-weight: 500;
-}
-
-@media (max-width: 767px) {
-    .about .row > div {
-        margin-bottom: 1rem; /* Уменьшаем отступ между фото и текстом на мобильных устройствах */
-    }
-    .about .row > div:last-child {
-        margin-bottom: 0; /* Убираем отступ у последнего элемента */
-    }
-}
-/* Стили для секции прайс-листа */
-.price {
-    padding: 80px 0; /* Соответствует другим секциям, например, .services и .contacts */
-    background: #F5F1E9; /* Светлый бежевый фон, как у всего сайта */
-}
-
-.price h1 {
-    font-family: 'Playfair Display', serif;
-    color: #333333;
-    font-size: 2.5rem; /* Соответствует другим h1 на сайте */
-}
-
-.price h2 {
-    font-family: 'Playfair Display', serif;
-    color: #333333;
-    font-size: 1.75rem; /* Чуть меньше, чем h1 */
-    margin-bottom: 1.5rem;
-}
-
-.price .table {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 1rem;
-    color: #555555; /* Темно-серый для текста, как в .article p */
-}
-
-.price .table th {
-    background-color: #f8f9fa; /* Светлый фон для заголовков таблицы */
-    color: #333333;
-    font-weight: 500;
-}
-
-.price .table td {
-    vertical-align: middle; /* Выравнивание текста по центру по вертикали */
-}
-
-.price .table-striped tbody tr:nth-of-type(odd) {
-    background-color: rgba(212, 175, 55, 0.1); /* Легкий золотистый оттенок (D4AF37) для четных строк */
-}
-
-/* Стили для названий услуг (где используется UPPERCASE) */
-.price .service-name {
-    font-weight: 500; /* Полужирный шрифт для выделения */
-    letter-spacing: 0.03em; /* Легкий разряд для улучшения читаемости UPPERCASE */
-    color: #333333;
-}
