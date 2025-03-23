@@ -3,42 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Прайс-лист | Лора Гобова</title>
-    <!-- Встроенные стили -->
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f8f9fa;
+            padding-top: 90px; /* Отступ для фиксированного хедера */
         }
-
         header {
             background-color: #343a40;
             color: white;
             padding: 1rem;
             text-align: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: top 0.3s ease;
         }
-
-        header h1 {
-            margin: 0;
-            font-size: 2rem;
-        }
-
-        nav {
-            margin-top: 1rem;
-        }
-
         nav a {
             color: white;
             margin: 0 1rem;
             text-decoration: none;
             font-size: 1.1rem;
         }
-
         nav a:hover {
             color: #D4AF37;
         }
-
         .price {
             background-color: #fff;
             padding: 2rem;
@@ -47,52 +39,43 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-
         .price h1 {
             color: #343a40;
             font-size: 2.5rem;
             margin-bottom: 2rem;
             text-align: center;
         }
-
         .price h2 {
             color: #D4AF37;
             font-size: 1.8rem;
             margin-top: 2rem;
             margin-bottom: 1rem;
         }
-
         .price .table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 2rem;
         }
-
         .price .table th,
         .price .table td {
             padding: 1rem;
             text-align: left;
             border: 1px solid #dee2e6;
         }
-
         .price .table th {
             background-color: #343a40;
             color: white;
         }
-
         .price .table tbody tr:nth-child(even) {
             background-color: #f8f9fa;
         }
-
         .price .table tbody tr:hover {
             background-color: #e9ecef;
         }
-
         .service-name {
             font-weight: bold;
             color: #D4AF37;
         }
-
         .btn-custom {
             background-color: #D4AF37;
             color: white;
@@ -103,11 +86,9 @@
             font-size: 0.9rem;
             display: inline-block;
         }
-
         .btn-custom:hover {
             background-color: #ff6f61;
         }
-
         footer {
             background-color: #343a40;
             color: white;
@@ -124,8 +105,8 @@
 <header>
     <h1>Лора Гобова</h1>
     <nav>
-        <a href="/">Главная</a>
-        <a href="/price.html">Прайс-лист</a>
+        <a href="/static">Главная</a>
+        <a href="/com/example/security/spring_security/seurity/price.html">Прайс-лист</a>
         <a href="/login">Вход</a>
     </nav>
 </header>
@@ -156,33 +137,28 @@
             .then(categories => {
                 const priceListDiv = document.getElementById('price-list');
                 categories.forEach(category => {
-                    // Создаем заголовок категории
                     const categoryHeader = document.createElement('h2');
                     categoryHeader.textContent = category.name;
                     priceListDiv.appendChild(categoryHeader);
 
-                    // Создаем таблицу
                     const table = document.createElement('table');
                     table.classList.add('table');
 
-                    // Создаем заголовки таблицы
                     const thead = document.createElement('thead');
                     thead.innerHTML = `
-                            <tr>
-                                <th>Услуга</th>
-                                <th>Описание</th>
-                                <th>Цена (₽)</th>
-                                <th>Действие</th>
-                            </tr>
-                        `;
+                        <tr>
+                            <th>Услуга</th>
+                            <th>Описание</th>
+                            <th>Цена (₽)</th>
+                            <th>Действие</th>
+                        </tr>
+                    `;
                     table.appendChild(thead);
 
-                    // Создаем тело таблицы
                     const tbody = document.createElement('tbody');
                     category.services.forEach(service => {
                         const tr = document.createElement('tr');
 
-                        // Услуга (имя или описание)
                         const nameTd = document.createElement('td');
                         const displayName = service.name || service.description || '';
                         nameTd.textContent = displayName;
@@ -191,17 +167,14 @@
                         }
                         tr.appendChild(nameTd);
 
-                        // Описание (только если есть имя)
                         const descTd = document.createElement('td');
                         descTd.textContent = (service.name && service.description) ? service.description : '';
                         tr.appendChild(descTd);
 
-                        // Цена
                         const priceTd = document.createElement('td');
                         priceTd.textContent = `${service.price} ₽`;
                         tr.appendChild(priceTd);
 
-                        // Действие (кнопка "Записаться")
                         const actionTd = document.createElement('td');
                         const bookLink = document.createElement('a');
                         bookLink.href = '#';
@@ -218,7 +191,6 @@
                     priceListDiv.appendChild(table);
                 });
 
-                // Добавляем обработчики для кнопок "Записаться"
                 const buttons = document.querySelectorAll('.book-service');
                 buttons.forEach(button => {
                     button.addEventListener('click', function(e) {
@@ -235,6 +207,18 @@
                 const priceListDiv = document.getElementById('price-list');
                 priceListDiv.innerHTML = '<p>Ошибка загрузки прайс-листа. Пожалуйста, попробуйте позже.</p>';
             });
+    });
+</script>
+<script>
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        if (currentScroll > lastScroll && currentScroll > 90) {
+            document.querySelector('header').style.top = '-90px';
+        } else {
+            document.querySelector('header').style.top = '0';
+        }
+        lastScroll = currentScroll;
     });
 </script>
 </body>
