@@ -36,8 +36,8 @@ public class PriceController {
                 .append("</head>\n")
                 .append("<body>\n");
 
-        // Хедер (обновлены ссылки)
-        html.append("<header class=\"header\">\n")
+        // Хедер с классом fixed-top
+        html.append("<header class=\"header fixed-top\">\n")
                 .append("    <nav class=\"navbar navbar-expand-lg navbar-light\">\n")
                 .append("        <div class=\"container\">\n")
                 .append("            <a class=\"navbar-brand logo\" href=\"/\">Лора Гобова</a>\n")
@@ -49,7 +49,7 @@ public class PriceController {
                 .append("                    <li class=\"nav-item\"><a class=\"nav-link\" href=\"/\">Главная</a></li>\n")
                 .append("                    <li class=\"nav-item\"><a class=\"nav-link\" href=\"/#services\">Услуги</a></li>\n")
                 .append("                    <li class=\"nav-item\"><a class=\"nav-link\" href=\"/#about\">Обо мне</a></li>\n")
-                .append("                    <li class=\"nav-item\"><a class=\"nav-link\" href=\"/price\">Цены</a></li>\n") // Добавлен пункт "Цены"
+                .append("                    <li class=\"nav-item\"><a class=\"nav-link\" href=\"/price\">Цены</a></li>\n")
                 .append("                    <li class=\"nav-item\"><a class=\"nav-link\" href=\"/#contacts\">Контакты</a></li>\n")
                 .append("                </ul>\n")
                 .append("            </div>\n")
@@ -133,7 +133,7 @@ public class PriceController {
                 .append("    <button class=\"chat-button\" aria-label=\"Открыть варианты чата\">Чат</button>\n")
                 .append("</div>\n");
 
-        // JavaScript
+        // JavaScript для кнопок "Записаться" и чат-виджета
         html.append("<script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js\" integrity=\"sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz\" crossorigin=\"anonymous\"></script>\n")
                 .append("<script>\n")
                 .append("    document.addEventListener('DOMContentLoaded', function() {\n")
@@ -151,6 +151,20 @@ public class PriceController {
                 .append("            var options = document.querySelector('.chat-options');\n")
                 .append("            options.style.display = options.style.display === 'none' ? 'block' : 'none';\n")
                 .append("        });\n")
+                .append("    });\n")
+                .append("</script>\n");
+
+        // JavaScript для исчезающего хедера
+        html.append("<script>\n")
+                .append("    let lastScroll = 0;\n")
+                .append("    window.addEventListener('scroll', () => {\n")
+                .append("        const currentScroll = window.pageYOffset;\n")
+                .append("        if (currentScroll > lastScroll && currentScroll > 90) {\n")
+                .append("            document.querySelector('.header').style.top = '-90px';\n")
+                .append("        } else {\n")
+                .append("            document.querySelector('.header').style.top = '0';\n")
+                .append("        }\n")
+                .append("        lastScroll = currentScroll;\n")
                 .append("    });\n")
                 .append("</script>\n");
 
