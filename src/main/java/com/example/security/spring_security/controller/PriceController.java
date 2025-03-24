@@ -192,7 +192,7 @@ public class PriceController {
         // Категория 2: Микроигольчатый RF-Лифтинг
         Service rfMicroneedlingFace = new Service();
         rfMicroneedlingFace.setDescription("Лицо полностью");
-        rfMicroneedlingFace.setPrice(8000);
+        rfMicroneedlingFace.setPrice(10000);
 
         Service rfMicroneedlingEyes = new Service();
         rfMicroneedlingEyes.setDescription("Глаза");
@@ -200,19 +200,19 @@ public class PriceController {
 
         Service rfMicroneedlingMid = new Service();
         rfMicroneedlingMid.setDescription("Глаза, лицо, шея");
-        rfMicroneedlingMid.setPrice(10000);
+        rfMicroneedlingMid.setPrice(13000);
 
         Service rfMicroneedlingFull = new Service();
         rfMicroneedlingFull.setDescription("Лицо, шея, декольте");
-        rfMicroneedlingFull.setPrice(13000);
+        rfMicroneedlingFull.setPrice(15000);
 
         Service rfMicroneedlingHands = new Service();
         rfMicroneedlingHands.setDescription("Кисти рук");
-        rfMicroneedlingHands.setPrice(6000);
+        rfMicroneedlingHands.setPrice(7000);
 
         Service rfMicroneedlingStomach = new Service();
         rfMicroneedlingStomach.setDescription("Живот");
-        rfMicroneedlingStomach.setPrice(8000);
+        rfMicroneedlingStomach.setPrice(10000);
 
         ServiceCategory rfMicroneedling = new ServiceCategory("Микроигольчатый RF-Лифтинг", Arrays.asList(
                 rfMicroneedlingFace, rfMicroneedlingEyes, rfMicroneedlingMid,
@@ -298,13 +298,13 @@ public class PriceController {
         wishCristina.setName("КОРРЕКЦИЯ ВОЗРАСТНЫХ ИЗМЕНЕНИЙ WISH CRISTINA");
         wishCristina.setDescription("Это инновационная серия препаратов, направленная на замедление процесса старения кожи " +
                 "путём повышения эффективности работы её естественного противовозрастного механизма.");
-        wishCristina.setPrice(4000);
+        wishCristina.setPrice(3500);
 
         Service bioFitoCristina = new Service();
         bioFitoCristina.setName("УХОД ЗА ЧУВСТВИТЕЛЬНОЙ, РАЗДРАЖЕННОЙ КОЖЕЙ И КОЖЕЙ С ПРИЗНАКАМИ КУПЕРОЗА BIO PHYTO CRISTINA");
         bioFitoCristina.setDescription("В основе линии лежит уникальный союз науки и природы, помогающий коже бороться с " +
                 "неблагоприятным воздействием окружающей среды изнутри и защищающий от её негативных факторов");
-        bioFitoCristina.setPrice(3300);
+        bioFitoCristina.setPrice(3500);
 
         Service glow = new Service();
         glow.setName("ФЛЕШ ПРОЦЕДУРА НА ВЫХОД В СВЕТ - МОДЕЛИРУЮЩИЙ СПА КОМПЛЕКС \"СИЯНИЕ\" С ХИРОМАССАЖЕМ ЛИЦА");

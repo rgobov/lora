@@ -143,17 +143,30 @@ h1, h2, h3 {
     border: none;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    position: relative; /* Для позиционирования стрелки */
+    cursor: pointer; /* Указывает кликабельность на десктопе */
 }
 
 .service-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-10px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    background: #F8F9FA;
+}
+
+.service-card:active {
+    transform: translateY(-5px); /* Меньше поднятие при касании для эффекта "нажатия" */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    background: #E9ECEF; /* Более заметное изменение фона при касании */
 }
 
 .service-card img {
     height: 200px;
     object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .service-card h3 {
@@ -165,6 +178,38 @@ h1, h2, h3 {
     font-size: 16px;
 }
 
+/* Добавляем стрелку как индикатор кликабельности */
+.service-card::after {
+    content: '\2192'; /* Unicode стрелки вправо */
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: #D4AF37;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.service-card:hover::after,
+.service-card:active::after {
+    opacity: 1; /* Стрелка становится ярче при наведении/касании */
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .service-card {
+        margin-bottom: 20px;
+    }
+    .service-card img {
+        height: 150px;
+    }
+    .service-card h3 {
+        font-size: 20px;
+    }
+    .service-card p {
+        font-size: 14px;
+    }
+}
 /* Обо мне */
 .about {
     padding: 80px 0;
@@ -310,3 +355,52 @@ h1, h2, h3 {
     background-color: #f8f9fa;
 }
 
+.service-card img {
+    width: 100%; /* Ширина на всю карточку */
+    object-fit: contain; /* Изображение не обрезается */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: #f8f9fa; /* Фон для пустых областей */
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+    .service-card img {
+        max-height: 150px; /* Ограничение высоты для мобильных */
+    }
+}
+/* Статья */
+.article {
+    padding: 120px 0 80px 0; /* 120px сверху для хедера, 80px снизу */
+}
+
+.article h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.article h2 {
+    font-size: 28px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.article p {
+    font-size: 16px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .article {
+        padding: 100px 0 60px 0; /* Меньше отступ на мобильных */
+    }
+    .article h1 {
+        font-size: 28px;
+    }
+    .article h2 {
+        font-size: 24px;
+    }
+    .article p {
+        font-size: 14px;
+    }
+}
