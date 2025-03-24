@@ -69,8 +69,8 @@ public class PriceController {
             html.append("                <table class=\"table table-striped table-bordered mb-5\">\n")
                     .append("                    <thead>\n")
                     .append("                        <tr>\n")
-                    .append("                            <th>").append(category.getName()).append("</th>\n")
-                    .append("                            <th>Стоимость услуги</th>\n")
+                    .append("                            <th scope=\"col\" style=\"width: 70%;\">").append(category.getName()).append("</th>\n")
+                    .append("                            <th scope=\"col\" style=\"width: 30%;\">Стоимость услуги</th>\n")
                     .append("                        </tr>\n")
                     .append("                    </thead>\n")
                     .append("                    <tbody>\n");
@@ -90,8 +90,6 @@ public class PriceController {
                 html.append("                            </td>\n")
                         .append("                            <td class=\"align-middle text-end\">\n")
                         .append("                                <span class=\"price-value\">").append(service.getPrice()).append(" ₽</span>\n")
-                        .append("                                <a href=\"#\" class=\"btn btn-custom btn-sm book-service ms-3\" data-service=\"")
-                        .append(displayName).append("\">Записаться</a>\n")
                         .append("                            </td>\n")
                         .append("                        </tr>\n");
             }
@@ -133,20 +131,10 @@ public class PriceController {
                 .append("    <button class=\"chat-button\" aria-label=\"Открыть варианты чата\">Чат</button>\n")
                 .append("</div>\n");
 
-        // JavaScript для кнопок "Записаться" и чат-виджета
-        html.append("<script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js\" integrity=\"sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz\" crossorigin=\"anonymous\"></script>\n")
+        // JavaScript для чат-виджета и хедера
+        html.append("<script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js\" integrity=\"sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz\"Begins\" crossorigin=\"anonymous\"></script>\n")
                 .append("<script>\n")
                 .append("    document.addEventListener('DOMContentLoaded', function() {\n")
-                .append("        const buttons = document.querySelectorAll('.book-service');\n")
-                .append("        buttons.forEach(button => {\n")
-                .append("            button.addEventListener('click', function(e) {\n")
-                .append("                e.preventDefault();\n")
-                .append("                const serviceName = this.getAttribute('data-service');\n")
-                .append("                const message = `Здравствуйте! Хочу записаться на услугу: ${serviceName}`;\n")
-                .append("                const telegramLink = `https://t.me/your_bot_username?text=${encodeURIComponent(message)}`;\n")
-                .append("                window.open(telegramLink, '_blank');\n")
-                .append("            });\n")
-                .append("        });\n")
                 .append("        document.querySelector('.chat-button').addEventListener('click', function() {\n")
                 .append("            var options = document.querySelector('.chat-options');\n")
                 .append("            options.style.display = options.style.display === 'none' ? 'block' : 'none';\n")
