@@ -1,33 +1,16 @@
-HELP.md
+# Игнорировать скомпилированные файлы
+*.class
+
+# Игнорировать файлы сборки Maven
 target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+*.jar
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+# Игнорировать Docker-образы
+*.tar
 
-### IntelliJ IDEA ###
-.idea
-*.iws
+# Игнорировать логи
+*.log
+
+# Игнорировать конфигурации IDE
+.idea/
 *.iml
-*.ipr
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
-.vscode/
