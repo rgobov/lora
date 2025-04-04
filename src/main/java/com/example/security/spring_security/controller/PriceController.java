@@ -33,6 +33,23 @@ public class PriceController {
                 .append("    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css\">\n")
                 .append("    <link rel=\"stylesheet\" href=\"/styles.css\">\n")
                 .append("    <link href=\"https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@400;500&display=swap\" rel=\"stylesheet\">\n")
+                .append("<!-- Yandex.Metrika counter -->\n" +
+                        "<script type=\"text/javascript\" >\n" +
+                        "   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};\n" +
+                        "   m[i].l=1*new Date();\n" +
+                        "   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}\n" +
+                        "   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})\n" +
+                        "   (window, document, \"script\", \"https://mc.yandex.ru/metrika/tag.js\", \"ym\");\n" +
+                        "\n" +
+                        "   ym(100795990, \"init\", {\n" +
+                        "        clickmap:true,\n" +
+                        "        trackLinks:true,\n" +
+                        "        accurateTrackBounce:true,\n" +
+                        "        webvisor:true\n" +
+                        "   });\n" +
+                        "</script>\n" +
+                        "<noscript><div><img src=\"https://mc.yandex.ru/watch/100795990\" style=\"position:absolute; left:-9999px;\" alt=\"\" /></div></noscript>\n" +
+                        "<!-- /Yandex.Metrika counter -->")
                 .append("</head>\n")
                 .append("<body>\n");
 
