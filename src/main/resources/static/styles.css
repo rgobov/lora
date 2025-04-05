@@ -404,6 +404,60 @@ h1, h2, h3 {
         font-size: 14px;
     }
 }
+/* Плавная прокрутка */
 html {
     scroll-behavior: smooth;
+}
+
+/* Стили для блока "Обо мне" */
+.about h2 {
+    font-family: 'Playfair Display', serif;
+    color: #000;
+}
+
+.about .lead,
+.about p {
+    font-family: 'Open Sans', sans-serif;
+    color: #000;
+}
+
+/* Стили для кликабельного блока "Обо мне" */
+.about-link {
+    display: block;
+    text-decoration: none !important; /* Убираем подчёркивание для самой ссылки */
+    color: #000 !important; /* Чёрный цвет для самой ссылки */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Убираем подчёркивание и задаём чёрный цвет для всех дочерних элементов */
+.about-link,
+.about-link h2,
+.about-link .lead,
+.about-link p,
+.about-link *:not(img) { /* Применяем ко всем элементам внутри .about-link, кроме изображений */
+    color: #000 !important;
+    text-decoration: none !important;
+}
+
+/* Эффект при наведении (для десктопа) и касании (для мобильных) */
+.about-link:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    color: #000 !important; /* Убедимся, что цвет остаётся чёрным при наведении */
+    text-decoration: none !important; /* Убедимся, что подчёркивание не появляется при наведении */
+}
+
+/* Убираем подчёркивание и синий цвет при посещении ссылки */
+.about-link:visited {
+    color: #000 !important;
+    text-decoration: none !important;
+}
+
+/* Для мобильных устройств: убираем эффект "активного состояния" */
+.about-link:active,
+.about-link:focus {
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+    color: #000 !important;
+    text-decoration: none !important;
 }
