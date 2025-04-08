@@ -424,8 +424,8 @@ html {
 /* Стили для кликабельного блока "Обо мне" */
 .about-link {
     display: block;
-    text-decoration: none !important; /* Убираем подчёркивание для самой ссылки */
-    color: #000 !important; /* Чёрный цвет для самой ссылки */
+    text-decoration: none !important;
+    color: #000 !important;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -434,17 +434,17 @@ html {
 .about-link h2,
 .about-link .lead,
 .about-link p,
-.about-link *:not(img) { /* Применяем ко всем элементам внутри .about-link, кроме изображений */
+.about-link *:not(img) {
     color: #000 !important;
     text-decoration: none !important;
 }
 
-/* Эффект при наведении (для десктопа) и касании (для мобильных) */
+/* Эффект при наведении (для десктопа) */
 .about-link:hover {
     transform: translateY(-10px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    color: #000 !important; /* Убедимся, что цвет остаётся чёрным при наведении */
-    text-decoration: none !important; /* Убедимся, что подчёркивание не появляется при наведении */
+    color: #000 !important;
+    text-decoration: none !important;
 }
 
 /* Убираем подчёркивание и синий цвет при посещении ссылки */
@@ -460,4 +460,20 @@ html {
     outline: none;
     color: #000 !important;
     text-decoration: none !important;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .about-link {
+        /* Добавляем лёгкий эффект тени по умолчанию, чтобы блок выглядел кликабельным */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    /* Эффект при касании (увеличение размера и изменение тени) */
+    .about-link:active {
+        transform: scale(1.03); /* Увеличиваем размер на 3% */
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Увеличиваем тень */
+        background: #F5E1E5; /* Лёгкое изменение фона для обратной связи */
+    }
 }
